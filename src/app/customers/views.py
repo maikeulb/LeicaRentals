@@ -12,42 +12,49 @@ from app.extensions import login, db
 from app.customers import customers
 from app.models import (
     Customer,
+    MembershipType,
 )
+
 
 @customers.route('/')
 @customers.route('/index')
 def index():
-    customers = Customer.query.all()
+    customers = Customer.query \
+            .join(Customer.membership_types) \
+            .all()
     return render_template('customers/index.html',
                            customers=customers,
                            title='Customers')
 
-@customers.route('/new')
-def new_customer():
-    form = CustomerForm()
-    membership_types = MembershipType.query.all()
-    if form.validate_on_submit():
-    customer = Customer(first_name=form.first_name.data,
-                        last_name=form.last_name.birth_date,
-                        date_of_birth=form.date_of_birth.data,
-                        membership_type_id=form.membership_type_id.data)
 
+@customers.route('/new', methods=['GET', 'POST'])
+def new_customer():
+
+    form = CustomerForm()
+    if form.validate_on_submit():
+        customer = Customer(first_name=form.first_name.data,
+                            last_name=form.last_name.data,
+                            date_of_birth=form.date_of_birth.data,
+                            membership_type_id=form.membership_type_id.data)
+        db.session.add(customer)
+        db.session.commit()
+        flash('Customer is added!')
+        return redirect(url_for('customers.index'))
+
+    membership_types = MembershipType.query.all()
     return render_template('customers/create.html',
                            membership_types=membership_types,
                            form=form,
                            title='Customers')
 
-@customers.route('/new/:id')
-def new_customer(id):
-    customers = Customer.query.findById(id)
-    membership_types = MembershipType.query.all()
-    if form.validate_on_submit():
-    customer = Customer(first_name=form.first_name.data,
-                        last_name=form.last_name.birth_date,
-                        date_of_birth=form.date_of_birth.data,
-                        membership_type_id=form.membership_type_id.data)
 
-    return render_template('customers/edit.html',
-                           membership_types=membership_types,
-                           form=form,
+@customers.route('/details/<id>')
+def get_customer_details(id):
+    customer = Customer.query \
+                        .join(Customer.membership_types) \
+                        .filtery_by(id=id) \
+                        .first_or_404()
+
+    return render_template('customers/details.html',
+                           customer=customer,
                            title='Customers')

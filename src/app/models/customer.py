@@ -12,7 +12,7 @@ class Customer(db.Model):
     is_subscribed = db.Column(db.Boolean)
     membership_type_id = db.Column(db.Integer, db.ForeignKey('membership_types.id'))
 
-    membership_type = db.relationship(
+    membership_types = db.relationship(
         'MembershipType',
         backref='customer',
         lazy='dynamic'

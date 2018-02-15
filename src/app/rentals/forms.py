@@ -8,3 +8,10 @@ class RentalsForm(FlaskForm):
     format_id = SelectField('Enter lens format', validators=[DataRequired()])
     stock = IntegerField('Enter lens stock', validators=[DataRequired()])
     submit = SubmitField('Submit')
+
+class EditRentalsForm(FlaskForm):
+    name = StringField('Enter lens name', validators=[DataRequired()])
+    release_date = DateField('Enter lens release_date', validators=[DataRequired()])
+    format_id = SelectField('Enter lens format', validators=[DataRequired()])
+    stock = IntegerField('Enter lens stock', validators=[DataRequired()])
+    submit = SubmitField('Submit')
