@@ -1,17 +1,11 @@
+{% extends "base.html" %}
 
-@model Customer
-
-@{
-    ViewBag.Title = "title";
-    Layout = "_Layout";
-}
-
-<h2>@Model.Name</h2>
-<ul>
-    <li>Membership Type: @Model.MembershipType.Name</li>
-    @if (Model.DateOfBirth.HasValue)
-    {
-        <li>Birthdate: @Model.DateOfBirth.Value.ToShortDateString()</li>
-    }
-</ul>
-
+{% block app_content %}
+  <main class="ui text container">
+    <h2>{{ customer.name }}</h2>
+    <ul>
+      <li>Membership Type: {{ customer.membership_type.name }}</li>
+      <li>Date of Birth: {{ customer.date_of_birth.strftime('%Y-%m-%d') }}</li>
+    </ul>
+  </main>
+{% endblock %}
