@@ -9,28 +9,28 @@
           <div class="field">
             {{ form.name.label }}
             {{ form.name }}
-            {% for error in form.first_name.errors %}
+            {% for error in form.name.errors %}
               <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
           </div>
           <div class="field">
             {{ form.release_date.label }}
             {{ form.release_date }}
-            {% for error in form.last_name.errors %}
+            {% for error in form.release_date.errors %}
               <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
           </div>
           <div class="field">
             {{ form.format.label }}
             {{ form.format }}
-            {% for error in form.date_of_birth.errors %}
+            {% for error in form.format.errors %}
               <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
           </div>
           <div class="field">
             {{ form.stock.label }}
             {{ form.stock }}
-            {% for error in form.membership_type.errors %}
+            {% for error in form.stock.errors %}
               <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
           </div>
