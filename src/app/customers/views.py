@@ -27,9 +27,10 @@ def new_customer():
     form = CustomerForm()
     membership_types = MembershipType.query.all()
     if form.validate_on_submit():
-    customer = Customer(name=form.body.data,
-                        birth_date=form.body.birth_date,
-                        membership_type_id=form.body.membership_type_id)
+    customer = Customer(first_name=form.first_name.data,
+                        last_name=form.last_name.birth_date,
+                        date_of_birth=form.date_of_birth.data,
+                        membership_type_id=form.membership_type_id.data)
 
     return render_template('customers/create.html',
                            membership_types=membership_types,
@@ -41,9 +42,10 @@ def new_customer(id):
     customers = Customer.query.findById(id)
     membership_types = MembershipType.query.all()
     if form.validate_on_submit():
-    customer = Customer(name=form.body.data,
-                        birth_date=form.body.birth_date,
-                        membership_type_id=form.body.membership_type_id)
+    customer = Customer(first_name=form.first_name.data,
+                        last_name=form.last_name.birth_date,
+                        date_of_birth=form.date_of_birth.data,
+                        membership_type_id=form.membership_type_id.data)
 
     return render_template('customers/edit.html',
                            membership_types=membership_types,

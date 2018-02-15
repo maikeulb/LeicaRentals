@@ -9,11 +9,11 @@ class Lens(db.Model):
     name = db.Column(db.String(140))
     date_added = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     release_date = db.Column(db.DateTime, index=True)
-    number_in_stock = db.Column(db.Integer)
-    genre_id = db.Column(db.Integer, db.ForeignKey('genres.id'))
+    stock = db.Column(db.Integer)
+    format_id = db.Column(db.Integer, db.ForeignKey('formats.id'))
 
-    genre = db.relationship(
-        'Genre',
+    formats = db.relationship(
+        'Format',
         backref='lens',
         lazy='dynamic'
     )
