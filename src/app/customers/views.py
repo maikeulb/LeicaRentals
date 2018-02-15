@@ -72,7 +72,7 @@ def edit_customer(id):
             flash('Error editing customer.', 'danger')
 
     membership_types = MembershipType.query.all()
-    return render_template('customers/create.html',
+    return render_template('customers/edit.html',
                            membership_types=membership_types,
                            form=form,
                            title='Customers')
@@ -82,23 +82,22 @@ def edit_customer(id):
 def get_customer_details(id):
 
     customer = Customer.query \
-                        .join(Customer.membership_types) \
-                        .filtery_by(id=id) \
-                        .first_or_404()
+                   .join(Customer.membership_types) \
+                   .filtery_by(id=id) \
+                   .first_or_404()
 
     return render_template('customers/details.html',
                            customer=customer,
                            title='Customers')
 
-@customers.route('/delete/<id>', methods=('POST',))
+@customers.route('/delete/<id>', methods=('POST'))
 def delete_customer(id):
 
     customer = Customer.query \
-                        .join(Customer.membership_types) \
-                        .filtery_by(id=id) \
-                        .first_or_404()
+                   .filtery_by(id=id) \
+                   .first_or_404()
     try:
-        db.session.delete(mi_contacto)
+        db.session.delete(customer)
         db.session.commit()
         flash('Delete successfully.', 'success')
     except:
