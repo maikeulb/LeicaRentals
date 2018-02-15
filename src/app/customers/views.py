@@ -29,7 +29,6 @@ def index():
 
 @customers.route('/new', methods=['GET', 'POST'])
 def new_customer():
-
     form = CustomerForm()
     if form.validate_on_submit():
         customer = Customer(first_name=form.first_name.data,
@@ -50,6 +49,7 @@ def new_customer():
 
 @customers.route('/details/<id>')
 def get_customer_details(id):
+
     customer = Customer.query \
                         .join(Customer.membership_types) \
                         .filtery_by(id=id) \
