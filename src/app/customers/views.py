@@ -28,7 +28,7 @@ def index():
 
 
 @customers.route('/new', methods=['GET', 'POST'])
-def new_customer():
+def new():
     # membership_types = MembershipType.query.all()
     form = CustomerForm()
     # form.membership_type_id.choices = [(m.id, m.name) for m in membership_types]
@@ -47,13 +47,13 @@ def new_customer():
         except:
             db.session.rollback()
             flash('Error adding customer.', 'danger')
-    return render_template('customers/create.html',
+    return render_template('customers/new.html',
                            form=form,
                            title='Customers')
 
 
 @customers.route('/edit', methods=['GET', 'POST'])
-def edit_customer(id):
+def edit(id):
     # membership_types = MembershipType.query.all()
     customer = Customer.query \
                         .join(Customer.membership_types) \
@@ -79,7 +79,7 @@ def edit_customer(id):
 
 
 @customers.route('/details/<id>')
-def get_customer_details(id):
+def details(id):
 
     customer = Customer.query \
                    .join(Customer.membership_types) \
@@ -91,7 +91,7 @@ def get_customer_details(id):
                            title='Customers')
 
 @customers.route('/delete/<id>', methods=['POST'])
-def delete_customer(id):
+def delete(id):
 
     customer = Customer.query \
                    .filtery_by(id=id) \

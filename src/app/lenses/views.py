@@ -1,8 +1,8 @@
 from datetime import datetime
 from flask import (
-    render_template, 
-    flash, redirect, 
-    url_for, 
+    render_template,
+    flash, redirect,
+    url_for,
     request,
     current_app
 )
@@ -15,6 +15,7 @@ from app.models import (
     Format,
 )
 
+
 @lenses.route('/')
 @lenses.route('/index')
 def index():
@@ -26,9 +27,10 @@ def index():
                            title='Lenses')
 
 @lenses.route('/new', methods=['GET', 'POST'])
-def new_lens(id):
-    form = LensForm(obj=lens)
+def new():
+    form = LensForm()
     if form.validate_on_submit():
+        lens = Lens()
         form.populate_obj(lens)
         try:
             db.session.add(lens)
@@ -47,7 +49,7 @@ def new_lens(id):
 
 
 @lenses.route('/edit', methods=['GET', 'POST'])
-def edit_lens(id):
+def edit(id):
     lens = Lens.query \
                .join(Customer.formats) \
                .filtery_by(id=id) \
@@ -72,7 +74,7 @@ def edit_lens(id):
 
 
 @lenses.route('/details/<id>')
-def get_lens_details(id):
+def details(id):
     lens = Lens.query \
            .join(Lens.formats) \
            .filtery_by(id=id) \
@@ -83,7 +85,7 @@ def get_lens_details(id):
                            title='Lens')
 
 @lenses.route('/delete/<id>', methods=['POST'])
-def delete_lens(id):
+def delete(id):
 
     lens = Lens.query \
                .filtery_by(id=id) \
