@@ -1,39 +1,41 @@
-@model Vidly.ViewModels.MoviesFormViewModel
+{% extends "base.html" %}
 
-@{
-    Layout = "_Layout";
-}
-
-<h2>@ViewBag.Title</h2>
-
-<form asp-action="Save" asp-controller="Movies">
-    <div asp-validation-summary="All"></div>
-
-    <div class="form-group">
-        <label asp-for="Name"> Name</label>
-        <input type="text" class="form-control" asp-for="Name" placeholder="Movie name">
-    </div>
-
-    <div class="form-group">
-        <label asp-for="ReleasedDate">Released date</label>
-        <input type="text" asp-for="ReleasedDate" asp-format="{0:d MMM yyyy}" class="form-control" placeholder="1 Jan 2017">
-    </div>
-
-    <div class="form-group">
-        <label asp-for="GenreId">Genres</label>
-        <select class="form-control" asp-for="GenreId"
-                asp-items="@(new SelectList(Model.Genres, "Id", "Name"))">
-            <option>Select Genres</option>
-        </select>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Stock">Number in stock</label>
-        <input type="text" asp-for="Stock"
-               class="form-control" placeholder="Stock">
-    </div>
-
-    <input type="hidden" asp-for="Id"/>
-    <button type="submit" class="btn btn-primary">Save</button>
-
-</form>
+{% block app_content %}
+  <main class="ui text container">
+    <h2>Customers form</h2>
+    <form action="" method="post" class="ui form">
+      <div class="ui segment">
+        {{ form.hidden_tag() }}
+          <div class="field">
+            {{ form.name.label }}
+            {{ form.name }}
+            {% for error in form.first_name.errors %}
+              <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+          </div>
+          <div class="field">
+            {{ form.release_date.label }}
+            {{ form.release_date }}
+            {% for error in form.last_name.errors %}
+              <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+          </div>
+          <div class="field">
+            {{ form.format.label }}
+            {{ form.format }}
+            {% for error in form.date_of_birth.errors %}
+              <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+          </div>
+          <div class="field">
+            {{ form.stock.label }}
+            {{ form.stock }}
+            {% for error in form.membership_type.errors %}
+              <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+          </div>
+        {{ form.submit(class="ui fluid large submit button") }}
+      </div>
+    </form>
+  </main>
+{% endblock %}
