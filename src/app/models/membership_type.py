@@ -2,7 +2,7 @@ from app.extensions import db
 from datetime import datetime
 
 
-class Customer(db.Model):
+class MembershipType(db.Model):
     __tablename__ = 'membership_types'
 
     id = db.Column(db.Integer, primary_key=True)
