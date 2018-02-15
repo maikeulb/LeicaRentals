@@ -13,9 +13,6 @@ class Config(object):
       'postgresql://postgres:P@ssw0rd!@172.17.0.2/leicarentals'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-    ADMINS = ['michael.sergio.barnes@gmail.com']
-
-    DEBUG_TB_INTERCEPT_REDIRECTS = False
     DEVELOPMENT = False
     TESTING = False
     PRODUCTION = False
@@ -26,7 +23,6 @@ class DevelopmentConfig(Config):
     DEBUG = True
     DEVELOPMENT = True
     DEBUG_TB_ENABLED = True
-    # CACHE_TYPE = 'simple' 
 
 class ProductionConfig(Config):
     DATABASE_URI = ''

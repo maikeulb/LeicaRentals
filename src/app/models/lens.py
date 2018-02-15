@@ -15,5 +15,5 @@ class Lens(db.Model):
     formats = db.relationship(
         'Format',
         backref='lens',
-        lazy='dynamic'
+        lazy='joined'
     )

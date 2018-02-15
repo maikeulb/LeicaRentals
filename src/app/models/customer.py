@@ -14,5 +14,5 @@ class Customer(db.Model):
     membership_types = db.relationship(
         'MembershipType',
         backref='customer',
-        lazy='dynamic'
+        lazy='joined'
     )

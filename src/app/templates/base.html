@@ -19,7 +19,7 @@
   </head>
 
     {% block navbar %}
-      {% include '/shared/_navbar.html' %}
+      {% include '_navbar.html' %}
     {% endblock %}
 
     {% block content %}
@@ -30,7 +30,7 @@
       </div>
     {% endblock %}
 
-    {% include '/shared/_footer.html' %}
+    {% include '_footer.html' %}
 
     {% if config.DEVELOPMENT %}
       <!-- Webpack Dev Mode -->
