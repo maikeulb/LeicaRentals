@@ -78,7 +78,7 @@ def get_lens_details(id):
            .filtery_by(id=id) \
            .first_or_404()
 
-    return render_template('lens/edit.html',
+    return render_template('lens/details.html',
                            lens=lens,
                            title='Lens')
 

@@ -1,0 +1,45 @@
+
+@model Vidly.ViewModels.CustomerFormViewModel
+
+@{
+    ViewBag.Title = "New Customer";
+    Layout = "_Layout";
+}
+<h2>Customers form</h2>
+
+<form asp-action="Save" asp-controller="Customers">
+    <div asp-validation-summary="All"></div>
+    <div class="form-group">
+        <label asp-for="FirstName">First Name</label>
+        <input type="text" class="form-control" asp-for="FirstName" placeholder="Enter first name">
+    </div>
+    <div class="form-group">
+        <label asp-for="LastName">LastName</label>
+        <input type="text" asp-for="LastName" class="form-control" placeholder="Last Name">
+    </div>
+    <div class="form-group">
+        <label asp-for="DateOfBirth">Date of Birth</label>
+        <input type="text" asp-for="DateOfBirth" asp-format="{0:d MMM yyyy}"
+               class="form-control" placeholder="Date of birth">
+    </div>
+    <div class="form-group">
+        <label asp-for="MembershipTypeId">Membership type</label>
+        <select class="form-control" asp-for="MembershipTypeId"
+                asp-items="@(new SelectList(Model.MembershipTypes, "Id", "Name"))">
+            <option>Select Membership Types</option>
+        </select>
+    </div>
+    <div class="checkbox">
+        <label>
+            <input asp-for="IsSubscribedToNewsletter" type="checkbox"> Subscribed to Newsletter?
+        </label>
+    </div>
+    <input type="hidden" asp-for="Id"/>
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

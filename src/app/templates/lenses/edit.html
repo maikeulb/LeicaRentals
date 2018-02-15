@@ -1,0 +1,39 @@
+@model Vidly.ViewModels.MoviesFormViewModel
+
+@{
+    Layout = "_Layout";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<form asp-action="Save" asp-controller="Movies">
+    <div asp-validation-summary="All"></div>
+
+    <div class="form-group">
+        <label asp-for="Name"> Name</label>
+        <input type="text" class="form-control" asp-for="Name" placeholder="Movie name">
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ReleasedDate">Released date</label>
+        <input type="text" asp-for="ReleasedDate" asp-format="{0:d MMM yyyy}" class="form-control" placeholder="1 Jan 2017">
+    </div>
+
+    <div class="form-group">
+        <label asp-for="GenreId">Genres</label>
+        <select class="form-control" asp-for="GenreId"
+                asp-items="@(new SelectList(Model.Genres, "Id", "Name"))">
+            <option>Select Genres</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Stock">Number in stock</label>
+        <input type="text" asp-for="Stock"
+               class="form-control" placeholder="Stock">
+    </div>
+
+    <input type="hidden" asp-for="Id"/>
+    <button type="submit" class="btn btn-primary">Save</button>
+
+</form>
