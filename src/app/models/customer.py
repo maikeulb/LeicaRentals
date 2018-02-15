@@ -9,7 +9,6 @@ class Customer(db.Model):
     first_name = db.Column(db.String(140))
     last_name = db.Column(db.String(140))
     date_of_birth = db.Column(db.DateTime)
-    is_subscribed = db.Column(db.Boolean)
     membership_type_id = db.Column(db.Integer, db.ForeignKey('membership_types.id'))
 
     membership_types = db.relationship(
