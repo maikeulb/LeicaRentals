@@ -61,7 +61,7 @@ def register_extensions(app):
 def register_blueprints(app):
     app.register_blueprint(main_bp)
     app.register_blueprint(account_bp, url_prefix='/account')
-    app.register_blueprint(customers_bp, url_prefix='/customers')
+    # app.register_blueprint(customers_bp, url_prefix='/customers')
     app.register_blueprint(rentals_bp, url_prefix='/rentals')
     app.register_blueprint(lenses_bp, url_prefix='/lenses')
     return None

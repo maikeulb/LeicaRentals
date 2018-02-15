@@ -47,7 +47,6 @@ def new_customer():
         except:
             db.session.rollback()
             flash('Error adding customer.', 'danger')
-
     return render_template('customers/create.html',
                            form=form,
                            title='Customers')
@@ -72,7 +71,6 @@ def edit_customer(id):
         except:
             db.session.rollback()
             flash('Error editing customer.', 'danger')
-
     membership_types = MembershipType.query.all()
     return render_template('customers/edit.html',
                            membership_types=membership_types,
@@ -92,7 +90,7 @@ def get_customer_details(id):
                            customer=customer,
                            title='Customers')
 
-@customers.route('/delete/<id>', methods=('POST'))
+@customers.route('/delete/<id>', methods=['POST'])
 def delete_customer(id):
 
     customer = Customer.query \

@@ -7,9 +7,9 @@ from flask import (
     current_app
 )
 from flask_login import current_user, login_required
-from app.customers.forms import LensForm
+from app.lenses.forms import LensForm
 from app.extensions import login, db
-from app.customers import customers
+from app.lenses import lenses
 from app.models import (
     Lens,
     Format,
@@ -82,7 +82,7 @@ def get_lens_details(id):
                            lens=lens,
                            title='Lens')
 
-@lenses.route('/delete/<id>', methods=('POST'))
+@lenses.route('/delete/<id>', methods=['POST'])
 def delete_lens(id):
 
     lens = Lens.query \
