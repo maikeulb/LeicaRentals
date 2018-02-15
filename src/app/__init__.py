@@ -8,10 +8,12 @@ from flask import (
     current_app
 )
 from app import commands, models
-from app.account import account as account_bp
 from app.extensions import bcrypt, cache, csrf_protect, db, debug_toolbar, \
 login, migrate, moment
+from app.account import account as account_bp
 from app.main import main as main_bp
+from app.customers import customers as customers_bp
+from app.rentals import rentals as rentals_bp
 
 Config = eval(os.environ['FLASK_APP_CONFIG'])
 
@@ -56,8 +58,10 @@ def register_extensions(app):
 
 
 def register_blueprints(app):
-    app.register_blueprint(account_bp, url_prefix='/account')
     app.register_blueprint(main_bp)
+    app.register_blueprint(account_bp, url_prefix='/account')
+    app.register_blueprint(customers_bp, url_prefix='/customers')
+    app.register_blueprint(rentals_bp, url_prefix='/rentals')
     return None
 
 def register_errorhandlers(app):
