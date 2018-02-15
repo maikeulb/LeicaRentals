@@ -8,10 +8,6 @@
       <title>Welcome to LeicaRentals</title>
     {% endif %}
 
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
-
     {% if config.DEVELOPMENT %}
       <!-- Webpack Dev Mode -->
       <link rel="stylesheet" href="http://localhost:8080/static/css/app.css">
@@ -22,7 +18,6 @@
 
   </head>
 
-  <body class="mdc-typography">
     {% block navbar %}
       {% include '/shared/_navbar.html' %}
     {% endblock %}
@@ -37,30 +32,6 @@
 
     {% include '/shared/_footer.html' %}
 
-    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
-    <script>window.mdc.autoInit();</script>
-
-<script>
-  document.getElementById('greeting-form').addEventListener('submit', function(evt) {
-    evt.preventDefault();
-    var firstname = evt.target.elements.firstname.value;
-    var lastname = evt.target.elements.lastname.value;
-    var greeting = 'Hello';
-    if (firstname || lastname) {
-      greeting += ', ';
-      if (firstname && lastname) {
-        greeting += firstname + ' ' + lastname;
-      } else if (lastname) {
-        greeting += 'Mx. ' + lastname;
-      } else {
-        greeting += firstname;
-      }
-    }
-    greeting += '!';
-
-    document.getElementById('greeting').textContent = greeting;
-  });
-</script>
     {% if config.DEVELOPMENT %}
       <!-- Webpack Dev Mode -->
       <script src='http://localhost:8080/static/js/app.bundle.js'></script>
