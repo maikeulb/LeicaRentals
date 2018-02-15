@@ -29,7 +29,9 @@ def index():
 
 @customers.route('/new', methods=['GET', 'POST'])
 def new_customer():
+    # membership_types = MembershipType.query.all()
     form = CustomerForm()
+    # form.membership_type_id.choices = [(m.id, m.name) for m in membership_types]
     if form.validate_on_submit():
         # customer = Customer(first_name=form.first_name.data,
                             # last_name=form.last_name.data,
@@ -46,19 +48,19 @@ def new_customer():
             db.session.rollback()
             flash('Error adding customer.', 'danger')
 
-    membership_types = MembershipType.query.all()
     return render_template('customers/create.html',
-                           membership_types=membership_types,
                            form=form,
                            title='Customers')
 
 
 @customers.route('/edit', methods=['GET', 'POST'])
 def edit_customer(id):
+    # membership_types = MembershipType.query.all()
     customer = Customer.query \
                         .join(Customer.membership_types) \
                         .filtery_by(id=id) \
                         .first_or_404()
+    # form.membership_type_id.choices = [(m.id, m.name) for m in membership_types]
     form = CustomerForm(obj=customer)
     if form.validate_on_submit():
         form.populate_obj(customer)

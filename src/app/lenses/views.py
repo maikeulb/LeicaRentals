@@ -40,7 +40,7 @@ def new_lens(id):
             flash('Error editing customer.', 'danger')
 
     formats = Format.query.all()
-    return render_template('lenses/create.html',
+    return render_template('lenses/new.html',
                            formats=formats,
                            form=form,
                            title='Lens')
