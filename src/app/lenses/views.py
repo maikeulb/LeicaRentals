@@ -15,17 +15,17 @@ from app.models import (
     Format,
 )
 
-@lens.route('/')
-@lens.route('/index')
+@lenses.route('/')
+@lenses.route('/index')
 def index():
     lenses = Lens.query \
             .join(Lens.formats) \
             .all()
-    return render_template('lens/index.html',
+    return render_template('lenses/index.html',
                            lenses=lenses,
                            title='Lenses')
 
-@lens.route('/new', methods=['GET', 'POST'])
+@lenses.route('/new', methods=['GET', 'POST'])
 def new_lens(id):
     form = LensForm(obj=lens)
     if form.validate_on_submit():
@@ -40,13 +40,13 @@ def new_lens(id):
             flash('Error editing customer.', 'danger')
 
     formats = Format.query.all()
-    return render_template('lens/create.html',
+    return render_template('lenses/create.html',
                            formats=formats,
                            form=form,
                            title='Lens')
 
 
-@lens.route('/edit', methods=['GET', 'POST'])
+@lenses.route('/edit', methods=['GET', 'POST'])
 def edit_lens(id):
     lens = Lens.query \
                .join(Customer.formats) \
@@ -65,24 +65,24 @@ def edit_lens(id):
             flash('Error editing customer.', 'danger')
 
     formats = Format.query.all()
-    return render_template('lens/edit.html',
+    return render_template('lenses/edit.html',
                            formats=formats,
                            form=form,
                            title='Lens')
 
 
-@lens.route('/details/<id>')
+@lenses.route('/details/<id>')
 def get_lens_details(id):
     lens = Lens.query \
            .join(Lens.formats) \
            .filtery_by(id=id) \
            .first_or_404()
 
-    return render_template('lens/details.html',
+    return render_template('lenses/details.html',
                            lens=lens,
                            title='Lens')
 
-@lens.route('/delete/<id>', methods=('POST'))
+@lenses.route('/delete/<id>', methods=('POST'))
 def delete_lens(id):
 
     lens = Lens.query \
@@ -96,4 +96,4 @@ def delete_lens(id):
         db.session.rollback()
         flash('Error delete  customer.', 'danger')
 
-    return redirect(url_for('lens.index'))
+    return redirect(url_for('lenses.index'))
