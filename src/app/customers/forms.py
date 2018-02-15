@@ -2,8 +2,8 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.fields.html5 import DateField
 from wtforms.validators import DataRequired
-from wtforms.sqlalchemy.fields import QuerySelectField
-from app.model import MembershipType
+from wtforms.ext.sqlalchemy.fields import QuerySelectField
+from app.models import MembershipType
 
     
 def choice_query():

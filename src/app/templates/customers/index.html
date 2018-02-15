@@ -19,20 +19,19 @@
             <tr>
               <td>
                 <a href="{{ url_for('customers.new') }}" class="btn btn-primary">
-                  {{ customer.last_name }}
+                  {{customer.last_name}}
                 </a>
               </td>
-              <td> {{ customer.membership_type.name }}</td>
+              <td> {{ customer.membership_type.Name }}</td>
             </tr>
           {% endfor %}
         </tbody>
       </table>    
-    {% else %}
-      <p>We don't have any customer yet.</p>
-    {% endif %}
-  </main>
-{% endblock %}
+  {% else %}
+    <p>We don't have any customer yet.</p>
+  {% endif %}
 
+{% endblock %}
   {# 
   {% block js %}
     <script>
