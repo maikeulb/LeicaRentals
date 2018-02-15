@@ -1,26 +1,10 @@
-  <div class="ui borderless main huge menu">
-    <div class="ui text container">
-      <a class="header item" href="{{ url_for('main.index') }}">
-        <img class="logo" id="logo_sm">
-        Leica Rentals
-      </a>
-      {% if current_user.is_anonymous %}
-      <div class="ui right item">
-        <a href="{{ url_for('account.login') }}" class="item">Login</a>
-        <a href="{{ url_for('account.register') }}" class="item">Register</a>
-      </div>
-      {% else %}
-      <div class="ui right floated dropdown item">
-        Hello {{ current_user.username }} <i class="dropdown icon"></i>
-        <div class="menu">
-          <a href="{{ url_for('main.user', username=current_user.username) }}"
-            class="item">Profile</a>
-          <div class="divider"></div>
-          <a href="{{ url_for('account.logout') }}" class="item">Logout</a>
-        </div>
-      </div>
-      {% endif %}
-    </div>
+<header class="mdc-toolbar">
+  <div class="mdc-toolbar__row">
+    <section class="mdc-toolbar__section mdc-toolbar__section--align-start">
+      <a href="#" class="material-icons mdc-toolbar__menu-icon">menu</a>
+      <span class="mdc-toolbar__title">Title</span>
+    </section>
   </div>
+</header>
 </nav>
 
