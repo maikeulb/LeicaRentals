@@ -7,6 +7,6 @@ from wtforms.fields.html5 import DateField
 class LensForm(FlaskForm):
     name = StringField('Lens Model', validators=[DataRequired()])
     release_date = DateField('Lens Release_Date', format='%Y-%m-%d', validators=[DataRequired()])
-    stock = IntegerField('Stock No.', validators=[DataRequired()])
+    number_in_stock = IntegerField('Stock No.', validators=[DataRequired()])
     format_id = SelectField('Lens format', coerce=int, validators=[DataRequired()])
     submit = SubmitField('Submit')

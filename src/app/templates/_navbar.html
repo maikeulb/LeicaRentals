@@ -1,10 +1,24 @@
-<header class="mdc-toolbar">
-  <div class="mdc-toolbar__row">
-    <section class="mdc-toolbar__section mdc-toolbar__section--align-start">
-      <a href="#" class="material-icons mdc-toolbar__menu-icon">menu</a>
-      <span class="mdc-toolbar__title">Title</span>
-    </section>
-  </div>
-</header>
-</nav>
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+                <li><a href="{{ url_for('main.index') }}"
+                    class="btn btn-primary">Home</li>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="{{ url_for('rentals.new') }}"
+                    class="btn btn-primary">Rentals</a></li>
+                <li><a href="{{ url_for('customers.index') }}"
+                    class="btn btn-primary">Customers</a></li>
+                <li><a href="{{ url_for('lenses.index') }}"
+                    class="btn btn-primary">Lenses</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
 

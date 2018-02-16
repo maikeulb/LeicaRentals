@@ -15,6 +15,8 @@ from app.api import api
 import json
 from app.models import (
     Customer,
+    Lens,
+    Rental,
 )
 
 
@@ -25,18 +27,17 @@ def create_rental(id):
     customer = Customer.query.get_or_404(data["customer_id")
     lens = Lens.query.get_or_404(data["lens_id")
 
-    foreach lens in lenses:
-        if lens.stock == 0:
-            return badrequest("lens is not available")
+    for lens in lenses:
+        if lens.number_available == 0:
+            return bad_request("lens is not available")
 
-        lens.stock = lens.stock - 1
+        lens.number_available -= 1
         
         rental = Rental()
         rental.customer = customer
         rental.lens = lens
-        db.session.add(lens)
+        db.session.add(rental)
 
     db.session.commit()
     response = jsonify({"result": "success"})
-
     return response

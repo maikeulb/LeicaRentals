@@ -19,7 +19,7 @@ from app.models import (
 
 @api.route('/api/lenses/<query>', defaults={'query': None})
 def get_lenses(query):
-    lens_query = Lens.query.filter_by(Lens.stock >0)
+    lens_query = Lens.query.filter_by(Lens.number_available > 0)
 
     if query:
         lens_query = lens_query.filter(Lens.name.contains(query))

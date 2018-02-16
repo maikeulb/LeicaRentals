@@ -7,7 +7,6 @@ from flask import (
     current_app
 )
 from flask_login import current_user, login_required
-from app.rentals.forms import RentalForm
 from app.extensions import login, db
 from app.rentals import rentals
 

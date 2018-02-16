@@ -9,14 +9,15 @@ class Lens(db.Model):
     name = db.Column(db.String(140))
     date_added = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     release_date = db.Column(db.DateTime, index=True)
-    stock = db.Column(db.Integer)
+    number_in_stock = db.Column(db.Integer)
+    number_available = db.Column(db.Integer)
     format_id = db.Column(db.Integer, db.ForeignKey('formats.id'))
 
     format = db.relationship('Format')
 
     def from_dict(self, data):
         for field in ['name', 'date_added', 'release_date',
-                      'stock', 'format_id']:
+                      'number_in_stock', 'number_available', 'format_id']:
             if field in data:
                 setattr(self, field, data[field])
 
@@ -25,8 +26,9 @@ class Lens(db.Model):
             'id': self.id,
             'name': self.name,
             'date_added': self.date_added,
-            'release_date': self.release_date
-            'stock': self.stock
+            'release_date': self.release_date,
+            'number_in_stock': self.number_in_stock,
+            'number_available': self.number_available,
             'format_id': self.format_id
         }
         return data
