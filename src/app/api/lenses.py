@@ -22,20 +22,27 @@ from app.models import (
 @api.route('/lenses/<query>')
 def get_lenses(query):
     # lens_query = Lens.query.filter(Lens.number_available > 0)
-    lens_query = Lens.query
+    lens_query = Lens.query.join(Lens.format)
+    # lens_query = Lens.query
 
     if query:
         lens_query = lens_query.filter(Lens.name.contains(query))
     lenses = lens_query.all()
-
+    print('**********************')
+    for lens in lenses:
+        print(lens.name)
+        print(lens.format.name)
+        print(lens.id)
+    print(lenses, sys.stdout)
     response = jsonify([lens.to_dict() for lens in lenses])
+    print('**********************')
+    print([lens.to_dict() for lens in lenses])
+
     return response
 
 
 @api.route('/lenses/<int:id>')
 def get_lens(id):
-    print('**************8888888888888', sys.stdout)
-    print('get  lens', sys.stdout)
     lens = Lens.query.get_or_404(id)
 
     response = jsonify(lens.to_dict())
@@ -60,8 +67,6 @@ def create_lens():
 
 @api.route('/lenses/<int:id>', methods=['PUT'])
 def update_lens(id):
-    print('**************8888888888888', sys.stdout)
-    print('update lens', sys.stdout)
     lens = Lens.query.filter_by(id=id).first_or_404()
     lens.from_dict(request.get_json() or {})
 
@@ -73,8 +78,6 @@ def update_lens(id):
 
 @api.route('/lenses/<id>', methods=['DELETE'])
 def delete_lens(id):
-    print('**************8888888888888', sys.stdout)
-    print('update lens', sys.stdout)
     Lens.query.filter_by(id=id).delete()
     db.session.commit()
 

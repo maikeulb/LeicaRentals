@@ -13,7 +13,10 @@ class Lens(db.Model):
     number_available = db.Column(db.Integer)
     format_id = db.Column(db.Integer, db.ForeignKey('formats.id'))
 
-    format = db.relationship('Format')
+    format = db.relationship(
+        'Format',
+        backref='format'
+    )
 
     def from_dict(self, data):
         for field in ['name', 'date_added', 'release_date',
@@ -29,7 +32,8 @@ class Lens(db.Model):
             'release_date': self.release_date,
             'number_in_stock': self.number_in_stock,
             'number_available': self.number_available,
-            'format_id': self.format_id
+            'format_id': self.format_id,
+            'format_name': self.format.name
         }
         return data
 
