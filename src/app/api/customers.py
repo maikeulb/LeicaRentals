@@ -37,8 +37,8 @@ def get_customer(id):
     return response
 
 
-@api.route('/api/customers/<int:id>', methods=['POST'])
-def create_customer(id):
+@api.route('/api/customers/', methods=['POST'])
+def create_customer():
     data = request.get_json() or {}
     if 'first_name' not in data or 'last_name' not in data \
        return bad_request('must include first_name, last_name')

@@ -13,3 +13,22 @@ class Lens(db.Model):
     format_id = db.Column(db.Integer, db.ForeignKey('formats.id'))
 
     format = db.relationship('Format')
+
+    def from_dict(self, data):
+        for field in ['name', 'date_added', 'release_date',
+                      'stock', 'format_id']:
+            if field in data:
+                setattr(self, field, data[field])
+
+    def to_dict(self):
+        data = {
+            'id': self.id,
+            'name': self.name,
+            'date_added': self.date_added,
+            'release_date': self.release_date
+            'stock': self.stock
+            'format_id': self.format_id
+        }
+        return data
+
+

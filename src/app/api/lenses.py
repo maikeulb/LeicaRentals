@@ -37,8 +37,8 @@ def get_lens(id):
     return response
 
 
-@api.route('/api/lenses/<int:id>', methods=['POST'])
-def create_lens(id):
+@api.route('/api/lenses/', methods=['POST'])
+def create_lens():
     data = request.get_json() or {}
     if 'first_name' not in data or 'last_name' not in data \
        return bad_request('must include first_name, last_name')
