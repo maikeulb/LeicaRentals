@@ -17,3 +17,20 @@ class Customer(db.Model):
     def full_name(self):
         return '{0} {1}'.format(self.first_name, self.last_name)
 
+    def from_dict(self, data):
+        for field in ['first_name', 'last_name', 'date_of_birth',
+                      'membership_type_id']:
+            if field in data:
+                setattr(self, field, data[field])
+
+    def to_dict(self):
+        data = {
+            'id': self.id,
+            'first_name': self.first_name,
+            'last_name': self.last_name,
+            'date_of_birth': self.date_of_birth,
+            'membership_type_id': self.membership_type_id
+        }
+        return data
+
+

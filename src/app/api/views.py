@@ -12,106 +12,62 @@ from flask import (
 from flask_login import current_user, login_required
 from app.extensions import db
 from app.api import api
-from app.models import (
-    Post,
-    User,
-    Notification,
-    UserNotification
-)
 import json
-from app.api.forms import (
-    CommentForm,
-)
 from app.models import (
-    Post,
-    Comment,
+    Customer,
 )
 
-@api.route('/follow/<username>')
-@login_required
-def follow(username):
-    user = User.query.filter_by(username=username).first()
-    if user is None:
-        flash('User not found.')
-        return redirect(url_for('main.index'))
-    if user == current_user:
-        flash('You cannot follow yourself!')
-        return redirect(url_for('main.user', username=username))
-    current_user.follow(user)
+@api.route('/api/customers/<query>', defaults={'query': None})
+def get_customers(query):
+    customer_query = Customer.query
+
+    if query:
+        customer_query = customer_query.filter(Customer.name.contains(query))
+    customers = customer_query.all()
+
+    response = jsonify([customer.to_dict() for customer in customers])
+    return response
+
+
+@api.route('/api/customers/<int:id>')
+def get_customer(id):
+    customer = Customer.query.get_or_404(id)
+
+    response = jsonify(customer.to_dict())
+    return response
+
+
+@api.route('/api/customers/<int:id>', methods=['POST'])
+def create_customer(id):
+    data = request.get_json() or {}
+    if 'first_name' not in data or 'last_name' not in data \
+       return bad_request('must include first_name, last_name')
+
+    customer = Customer()
+    customer.from_dict(data)
+
+    db.session.add(customer)
     db.session.commit()
-    return jsonify({'result': 'success'})
+
+    response = jsonify(customer.to_dict())
+    return response
 
 
-@api.route('/unfollow/<username>')
-@login_required
-def unfollow(username):
-    user = User.query.filter_by(username=username).first()
-    if user is None:
-        return redirect(url_for('main.index'))
-    if user == current_user:
-        flash('You cannot unfollow yourself!')
-        return redirect(url_for('main.user', username=username))
-    current_user.unfollow(user)
+@api.route('/api/customers/<int:id>', methods=['PUT'])
+def update_customer(id):
+    customer = Customer.query.filter_by(id=id).first_or_404()
+    customer.from_dict(request.get_json() or {})
+
     db.session.commit()
-    return redirect(url_for('main.user', username=username))
+
+    response = jsonify(customer.to_dict())
+    return response
 
 
-@api.route('/like/<id>', methods=['GET', 'POST'])
-@login_required
-def like(id):
-    post = Post.query.filter_by(id=id).first()
-    if post is None:
-        flash('User not found.')
-        return redirect(url_for('main.index'))
-    current_user.like(post)
-    user = User.query.filter_by(id=post.user_id).first_or_404()
-    user.add_notification('unread_message_count', user.new_messages())
-    notification = UserNotification(author=current_user, recipient=user, body=1)
-    db.session.add(notification)
+@api.route('/api/customers/<int:id>', methods=['Delete'])
+def delete_customer(id):
+    Customer.query.filter_by(id=id).delete()
     db.session.commit()
-    return jsonify({
-        'data': current_user.username})
 
-
-@api.route('/unlike/<id>', methods=['GET', 'POST'])
-@login_required
-def unlike(id):
-    post = Post.query.filter_by(id=id).first()
-    if post is None:
-        flash('User not found.')
-        return redirect(url_for('main.index'))
-    current_user.unlike(post)
-    db.session.commit()
-    return jsonify({
-        'data': current_user.username})
-
-
-@api.route('/notifications')
-@login_required
-def notifications():
-    since = request.args.get('since', 0.0, type=float)
-    notifications = current_user.notifications.filter(
-        Notification.timestamp > since).order_by(Notification.timestamp.asc())
-    return jsonify([{
-        'name': n.name,
-        'data': n.get_data(),
-        'timestamp': n.timestamp
-    } for n in notifications])
-
-
-@api.route('/comment/<id>', methods=['post'])
-def comment(id):
-    post = Post.query.filter_by(id=id).first_or_404()
-    form = CommentForm()
-    print(form, sys.stdout)
-    print(post, sys.stdout)
-    if form.validate_on_submit():
-        comment = Comment(body=form.body.data,
-                          post=post,
-                          author=current_user._get_current_object())
-        db.session.add(comment)
-        db.session.commit()
-        print(form.body.data, sys.stdout)
-        return jsonify({
-            'data': form.body.data})
-    return jsonify(data=form.errors)
+    response = jsonify({'data': 'success'})
+    return response
