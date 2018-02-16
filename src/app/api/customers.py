@@ -12,20 +12,22 @@ from flask import (
 from flask_login import current_user, login_required
 from app.extensions import db
 from app.api import api
-# from app.api.errors import bad_request
 import json
 from app.models import (
     Customer,
 )
 
-@api.route('/customers/<query>', defaults={'query': None})
+@api.route('/customers', defaults={'query': None})
+@api.route('/customers/<query>')
 def get_customers(query):
     customer_query = Customer.query
 
     if query:
-        customer_query = customer_query.filter(Customer.last_name.contains(query))
-    customers = customer_query.all()
+        customer_query = \
+        customer_query.filter(Customer.first_name.contains(query) |
+                              Customer.last_name.contains(query))
 
+    customers = customer_query.all()
     response = jsonify([customer.to_dict() for customer in customers])
     return response
 
@@ -41,8 +43,6 @@ def get_customer(id):
 @api.route('/customers/', methods=['POST'])
 def create_customer():
     data = request.get_json() or {}
-    # if 'first_name' not in data or 'last_name' not in data \
-       # return bad_request('must include first_name, last_name')
 
     customer = Customer()
     customer.from_dict(data)
@@ -65,7 +65,7 @@ def update_customer(id):
     return response
 
 
-@api.route('/customers/<int:id>', methods=['Delete'])
+@api.route('/customers/<int:id>', methods=['DELETE'])
 def delete_customer(id):
     Customer.query.filter_by(id=id).delete()
     db.session.commit()

@@ -12,7 +12,6 @@ from flask import (
 from flask_login import current_user, login_required
 from app.extensions import db
 from app.api import api
-from app.api.errors import bad_request
 import json
 from app.models import (
     Lens,
@@ -22,22 +21,13 @@ from app.models import (
 @api.route('/lenses/<query>')
 def get_lenses(query):
     # lens_query = Lens.query.filter(Lens.number_available > 0)
-    lens_query = Lens.query.join(Lens.format)
-    # lens_query = Lens.query
+    lens_query = Lens.query
 
     if query:
         lens_query = lens_query.filter(Lens.name.contains(query))
-    lenses = lens_query.all()
-    print('**********************')
-    for lens in lenses:
-        print(lens.name)
-        print(lens.format.name)
-        print(lens.id)
-    print(lenses, sys.stdout)
-    response = jsonify([lens.to_dict() for lens in lenses])
-    print('**********************')
-    print([lens.to_dict() for lens in lenses])
 
+    lenses = lens_query.all()
+    response = jsonify([lens.to_dict() for lens in lenses])
     return response
 
 
@@ -52,8 +42,6 @@ def get_lens(id):
 @api.route('/lenses/', methods=['POST'])
 def create_lens():
     data = request.get_json() or {}
-    # if 'first_name' not in data or 'last_name' not in data \
-       # return bad_request('must include first_name, last_name')
 
     lens = Lens()
     lens.from_dict(data)
@@ -76,7 +64,7 @@ def update_lens(id):
     return response
 
 
-@api.route('/lenses/<id>', methods=['DELETE'])
+@api.route('/lenses/<int:id>', methods=['DELETE'])
 def delete_lens(id):
     Lens.query.filter_by(id=id).delete()
     db.session.commit()
