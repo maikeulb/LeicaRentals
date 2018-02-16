@@ -21,15 +21,16 @@ from app.models import (
 @lenses.route('/index')
 def index():
     lenses = Lens.query \
-            .join(Lens.format) \
             .all()
+
     return render_template('lenses/index.html',
                            lenses=lenses,
                            title='Lenses')
 
 @lenses.route('/new', methods=['GET', 'POST'])
 def new():
-    formats = Format.query.all()
+    formats = Format.query \
+            .all()
     form = LensForm()
     form.format_id.choices = [(f.id, f.name) for f in formats]
     if form.validate_on_submit():
@@ -46,7 +47,6 @@ def new():
 
     formats = Format.query.all()
     return render_template('lenses/new.html',
-                           formats=formats,
                            form=form,
                            title='Lens')
 
@@ -80,15 +80,15 @@ def edit(id):
 @lenses.route('/details/<id>')
 def details(id):
     lens = Lens.query \
-               .filter_by(id=id) \
-               .first_or_404()
+            .filter_by(id=id) \
+            .first_or_404()
+
     return render_template('lenses/details.html',
                            lens=lens,
                            title='Lens')
 
 @lenses.route('/delete/<id>', methods=['POST'])
 def delete(id):
-
     lens = Lens.query \
                .filter_by(id=id) \
                .first_or_404()

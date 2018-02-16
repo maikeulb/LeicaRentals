@@ -2,7 +2,7 @@
 
 {% block app_content %}
   <main class="ui text container">
-    <h2>{{ customer.name }}</h2>
+    <h2>{{ customer.full_name }}</h2>
     <ul>
       <li>Membership Type: {{ customer.membership_type.name }}</li>
       <li>Date of Birth: {{ customer.date_of_birth.strftime('%Y-%m-%d') }}</li>

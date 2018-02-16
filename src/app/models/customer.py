@@ -11,8 +11,9 @@ class Customer(db.Model):
     date_of_birth = db.Column(db.DateTime)
     membership_type_id = db.Column(db.Integer, db.ForeignKey('membership_types.id'))
 
-    membership_types = db.relationship(
-        'MembershipType',
-        backref='customer',
-        lazy='joined'
-    )
+    membership_type = db.relationship('MembershipType')
+
+    @property
+    def full_name(self):
+        return '{0} {1}'.format(self.first_name, self.last_name)
+

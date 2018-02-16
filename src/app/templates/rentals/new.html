@@ -5,22 +5,16 @@
    <h2>New Rental Form</h2>
     <form id ="newRental" action="" method="post" class="ui form">
       <div class="field tt-container">
-        {{ form.customer.label }}
-        {{ form.customer }}
-        {% for error in form.customer.errors %}
-          <span style="color: red;">[{{ error }}]</span>
-        {% endfor %}
+        <input id="customer" name="customer" data-rule-validCustomer="true" required type="text" value="" class="form-control" />
       </div>
+
       <div class="field tt-container">
-        {{ form.lens.label }}
-        {{ form.lens }}
-        {% for error in form.lens.errors %}
-          <span style="color: red;">[{{ error }}]</span>
-        {% endfor %}
+            <input id="lens" name="movie" data-rule-atLeastOneMovie="true" type="text" value="" class="form-control" />
       </div>
+
       <div class="row">
         <div class="col-md-4 col-sm-4">
-          <ul id="movies" class="list-group"></ul>
+          <ul id="lenses" class="list-group"></ul>
         </div>
       </div>
       {{ form.submit(class="ui fluid large submit button") }}
