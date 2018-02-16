@@ -29,9 +29,9 @@ def index():
 
 @customers.route('/new', methods=['GET', 'POST'])
 def new():
-    # membership_types = MembershipType.query.all()
+    membership_types = MembershipType.query.all()
     form = CustomerForm()
-    # form.membership_type_id.choices = [(m.id, m.name) for m in membership_types]
+    form.membership_type.choices = [(m.id, m.name) for m in membership_types]
     if form.validate_on_submit():
         # customer = Customer(first_name=form.first_name.data,
                             # last_name=form.last_name.data,

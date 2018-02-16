@@ -1,12 +1,11 @@
 {% extends "base.html" %}
-
 {% block app_content %}
   <main class="ui text container">
   <h2>Customers form</h2>
     <form action="" method="post" class="ui form">
       <div class="ui segment">
         {{ form.hidden_tag() }}
-          <div class="field">
+        <div class="field">
             {{ form.first_name.label }}
             {{ form.first_name }}
             {% for error in form.first_name.errors %}
@@ -18,7 +17,7 @@
             {{ form.last_name }}
             {% for error in form.last_name.errors %}
               <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
+           {% endfor %}
           </div>
           <div class="field">
             {{ form.date_of_birth.label }}
@@ -39,3 +38,4 @@
     </form>
   </main>
 {% endblock %}
+

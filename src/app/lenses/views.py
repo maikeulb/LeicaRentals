@@ -1,3 +1,4 @@
+import sys
 from datetime import datetime
 from flask import (
     render_template,
@@ -20,7 +21,7 @@ from app.models import (
 @lenses.route('/index')
 def index():
     lenses = Lens.query \
-            .join(Lens.formats) \
+            .join(Lens.format) \
             .all()
     return render_template('lenses/index.html',
                            lenses=lenses,
@@ -28,7 +29,9 @@ def index():
 
 @lenses.route('/new', methods=['GET', 'POST'])
 def new():
+    formats = Format.query.all()
     form = LensForm()
+    form.format_id.choices = [(f.id, f.name) for f in formats]
     if form.validate_on_submit():
         lens = Lens()
         form.populate_obj(lens)
@@ -36,7 +39,7 @@ def new():
             db.session.add(lens)
             db.session.commit()
             flash('Lens is updated!', 'success')
-            return redirect(url_for('lens.index'))
+            return redirect(url_for('lenses.index'))
         except:
             db.session.rollback()
             flash('Error editing customer.', 'danger')
@@ -48,20 +51,21 @@ def new():
                            title='Lens')
 
 
-@lenses.route('/edit', methods=['GET', 'POST'])
+@lenses.route('/edit/<id>', methods=['GET', 'POST'])
 def edit(id):
     lens = Lens.query \
-               .join(Customer.formats) \
-               .filtery_by(id=id) \
+               .filter_by(id=id) \
                .first_or_404()
+    formats = Format.query.all()
     form = LensForm(obj=lens)
+    form.format_id.choices = [(f.id, f.name) for f in formats]
     if form.validate_on_submit():
-        form.populate_obj(lens)
         try:
+            form.populate_obj(lens)
             db.session.add(lens)
             db.session.commit()
             flash('Lens is updated!', 'success')
-            return redirect(url_for('lens.index'))
+            return redirect(url_for('lenses.index'))
         except:
             db.session.rollback()
             flash('Error editing customer.', 'danger')
@@ -76,10 +80,8 @@ def edit(id):
 @lenses.route('/details/<id>')
 def details(id):
     lens = Lens.query \
-           .join(Lens.formats) \
-           .filtery_by(id=id) \
-           .first_or_404()
-
+               .filter_by(id=id) \
+               .first_or_404()
     return render_template('lenses/details.html',
                            lens=lens,
                            title='Lens')
@@ -88,7 +90,7 @@ def details(id):
 def delete(id):
 
     lens = Lens.query \
-               .filtery_by(id=id) \
+               .filter_by(id=id) \
                .first_or_404()
     try:
         db.session.delete(lens)

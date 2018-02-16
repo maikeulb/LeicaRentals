@@ -12,8 +12,6 @@ class Lens(db.Model):
     stock = db.Column(db.Integer)
     format_id = db.Column(db.Integer, db.ForeignKey('formats.id'))
 
-    formats = db.relationship(
+    format = db.relationship(
         'Format',
-        backref='lens',
-        lazy='joined'
     )
