@@ -18,19 +18,19 @@ from app.models import (
     Customer,
 )
 
-@api.route('/api/customers/<query>', defaults={'query': None})
+@api.route('/customers/<query>', defaults={'query': None})
 def get_customers(query):
     customer_query = Customer.query
 
     if query:
-        customer_query = customer_query.filter(Customer.name.contains(query))
+        customer_query = customer_query.filter(Customer.last_name.contains(query))
     customers = customer_query.all()
 
     response = jsonify([customer.to_dict() for customer in customers])
     return response
 
 
-@api.route('/api/customers/<int:id>')
+@api.route('/customers/<int:id>')
 def get_customer(id):
     customer = Customer.query.get_or_404(id)
 
@@ -38,7 +38,7 @@ def get_customer(id):
     return response
 
 
-@api.route('/api/customers/', methods=['POST'])
+@api.route('/customers/', methods=['POST'])
 def create_customer():
     data = request.get_json() or {}
     # if 'first_name' not in data or 'last_name' not in data \
@@ -54,7 +54,7 @@ def create_customer():
     return response
 
 
-@api.route('/api/customers/<int:id>', methods=['PUT'])
+@api.route('/customers/<int:id>', methods=['PUT'])
 def update_customer(id):
     customer = Customer.query.filter_by(id=id).first_or_404()
     customer.from_dict(request.get_json() or {})
@@ -65,7 +65,7 @@ def update_customer(id):
     return response
 
 
-@api.route('/api/customers/<int:id>', methods=['Delete'])
+@api.route('/customers/<int:id>', methods=['Delete'])
 def delete_customer(id):
     Customer.query.filter_by(id=id).delete()
     db.session.commit()

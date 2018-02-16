@@ -18,9 +18,11 @@ from app.models import (
     Lens,
 )
 
-@api.route('/api/lenses/<query>', defaults={'query': None})
+@api.route('/lenses', defaults={'query': None})
+@api.route('/lenses/<query>')
 def get_lenses(query):
-    lens_query = Lens.query.filter_by(Lens.number_available > 0)
+    # lens_query = Lens.query.filter(Lens.number_available > 0)
+    lens_query = Lens.query
 
     if query:
         lens_query = lens_query.filter(Lens.name.contains(query))
@@ -30,15 +32,17 @@ def get_lenses(query):
     return response
 
 
-@api.route('/api/lenses/<int:id>')
+@api.route('/lenses/<int:id>')
 def get_lens(id):
+    print('**************8888888888888', sys.stdout)
+    print('get  lens', sys.stdout)
     lens = Lens.query.get_or_404(id)
 
     response = jsonify(lens.to_dict())
     return response
 
 
-@api.route('/api/lenses/', methods=['POST'])
+@api.route('/lenses/', methods=['POST'])
 def create_lens():
     data = request.get_json() or {}
     # if 'first_name' not in data or 'last_name' not in data \
@@ -54,8 +58,10 @@ def create_lens():
     return response
 
 
-@api.route('/api/lenses/<int:id>', methods=['PUT'])
+@api.route('/lenses/<int:id>', methods=['PUT'])
 def update_lens(id):
+    print('**************8888888888888', sys.stdout)
+    print('update lens', sys.stdout)
     lens = Lens.query.filter_by(id=id).first_or_404()
     lens.from_dict(request.get_json() or {})
 
@@ -65,8 +71,10 @@ def update_lens(id):
     return response
 
 
-@api.route('/api/lenses/<int:id>', methods=['Delete'])
+@api.route('/lenses/<id>', methods=['DELETE'])
 def delete_lens(id):
+    print('**************8888888888888', sys.stdout)
+    print('update lens', sys.stdout)
     Lens.query.filter_by(id=id).delete()
     db.session.commit()
 

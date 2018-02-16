@@ -21,7 +21,7 @@ from app.models import (
 )
 
 
-@api.route('/api/rentals/', methods=['POST'])
+@api.route('/rentals/', methods=['POST'])
 def create_rental(id):
     data = request.get_json() or {}
 
