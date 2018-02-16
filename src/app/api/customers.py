@@ -12,6 +12,7 @@ from flask import (
 from flask_login import current_user, login_required
 from app.extensions import db
 from app.api import api
+# from app.api.errors import bad_request
 import json
 from app.models import (
     Customer,
@@ -40,8 +41,8 @@ def get_customer(id):
 @api.route('/api/customers/', methods=['POST'])
 def create_customer():
     data = request.get_json() or {}
-    if 'first_name' not in data or 'last_name' not in data \
-       return bad_request('must include first_name, last_name')
+    # if 'first_name' not in data or 'last_name' not in data \
+       # return bad_request('must include first_name, last_name')
 
     customer = Customer()
     customer.from_dict(data)

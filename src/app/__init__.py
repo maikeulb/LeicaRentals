@@ -10,6 +10,7 @@ from flask import (
 from app import commands, models
 from app.extensions import bcrypt, csrf_protect, db, \
 login, migrate, moment
+from app.api import api as api_bp
 from app.account import account as account_bp
 from app.main import main as main_bp
 from app.rentals import rentals as rentals_bp
@@ -45,6 +46,7 @@ def register_blueprints(app):
     app.register_blueprint(customers_bp, url_prefix='/customers')
     app.register_blueprint(rentals_bp, url_prefix='/rentals')
     app.register_blueprint(lenses_bp, url_prefix='/lenses')
+    app.register_blueprint(api_bp, url_prefix='/api')
     return None
 
 def register_errorhandlers(app):

@@ -2,4 +2,4 @@ from flask import Blueprint
 
 api = Blueprint('api', __name__)
 
-from app.api import customers, lenses, rentals
+from app.api import customers, lenses, rentals, errors

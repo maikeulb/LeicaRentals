@@ -12,6 +12,7 @@ from flask import (
 from flask_login import current_user, login_required
 from app.extensions import db
 from app.api import api
+# from app.api.errors import bad_request
 import json
 from app.models import (
     Customer,
@@ -24,12 +25,12 @@ from app.models import (
 def create_rental(id):
     data = request.get_json() or {}
 
-    customer = Customer.query.get_or_404(data["customer_id")
-    lens = Lens.query.get_or_404(data["lens_id")
+    customer = Customer.query.get_or_404(data["customer_id"])
+    lens = Lens.query.get_or_404(data["lens_id"])
 
     for lens in lenses:
-        if lens.number_available == 0:
-            return bad_request("lens is not available")
+        # if lens.number_available == 0:
+            # return bad_request("lens is not available")
 
         lens.number_available -= 1
         
