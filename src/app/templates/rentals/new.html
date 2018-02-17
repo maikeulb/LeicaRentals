@@ -3,38 +3,56 @@
 {% block app_content %}
   <main class="ui text container">
    <h2>New Rental Form</h2>
-    <form id ="newRental" action="" method="post" class="ui form">
-      <div class="field tt-container">
-        <input id="customer" name="customer" data-rule-validCustomer="true" required type="text" value="" class="form-control" />
-      </div>
 
-      <div class="field tt-container">
-            <input id="lens" name="movie" data-rule-atLeastOneMovie="true" type="text" value="" class="form-control" />
-      </div>
+   <form id="rental">
 
-      <div class="row">
-        <div class="col-md-4 col-sm-4">
-          <ul id="lenses" class="list-group"></ul>
+    <div class="form-group">
+        <label>Customer</label>
+        <div class="tt-container">
+            <input id="customer" name="customer" data-rule-validCustomer="true" required type="text" value="" class="form-control" />
         </div>
-      </div>
+    </div>
+
+    <div class="form-group">
+        <label>Lens</label>
+        <div class="tt-container">
+            <input id="lens" name="lens" data-rule-atLeastOneLens="true" type="text" value="" class="form-control" />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 col-sm-4">
+            <ul id="lenses" class="list-group"></ul>
+        </div>
+    </div>
+
+    <button class="btn btn-primary">Submit</button>
     </form>
   </main>
 {% endblock %}
 
-  {# 
   {% block js %}
-@section scripts
-{
-    @Scripts.Render("~/bundles/jqueryval")
+
+  <script type="text/javascript">
+    var csrf_token = "{{ csrf_token() }}";
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrf_token);
+            }
+        }
+    });
+  </script>
+
+
     <script>
         $(document).ready(function () {
-
             var vm = {
-                movieIds: []
+                lensIds: []
             };
 
             var customers = new Bloodhound({
-                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('last_name'),
                 queryTokenizer: Bloodhound.tokenizers.whitespace,
                 remote: {
                     url: '/api/customers?query=%QUERY',
@@ -47,70 +65,71 @@
                 highlight: true
             }, {
                 name: 'customers',
-                display: 'name',
+                display: 'last_name',
                 source: customers
             }).on("typeahead:select", function(e, customer) {
                 vm.customerId = customer.id;
             });
 
-            var movies = new Bloodhound({
+            var lenses = new Bloodhound({
                 datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
                 queryTokenizer: Bloodhound.tokenizers.whitespace,
                 remote: {
-                    url: '/api/movies?query=%QUERY',
+                    url: '/api/lenses?query=%QUERY',
                     wildcard: '%QUERY'
                 }
             });
 
-            $('#movie').typeahead({
+            $('#lens').typeahead({
                 minLength: 3,
                 highlight: true
             }, {
-                name: 'movies',
+                name: 'lenses',
                 display: 'name',
-                source: movies
-            }).on("typeahead:select", function (e, movie) {
-                $("#movies").append("<li class='list-group-item'>" + movie.name + "</li>");
+                source: lenses
+            }).on("typeahead:select", function (e, lens) {
+                $("#lenses").append("<li class='list-group-item'>" + lens.name + "</li>");
 
-                $("#movie").typeahead("val", "");
+                $("#lens").typeahead("val", "");
 
-                vm.movieIds.push(movie.id);
+                vm.lensIds.push(lens.id);
             });
 
             $.validator.addMethod("validCustomer", function () {
                 return vm.customerId && vm.customerId !== 0;
             }, "Please select a valid customer.");
 
-            $.validator.addMethod("atLeastOneMovie", function () {
-                return vm.movieIds.length > 0;
-            }, "Please select at least one movie.");
+            $.validator.addMethod("atLeastOneLens", function () {
+                return vm.lensIds.length > 0;
+            }, "Please select at least one lens.");
 
-            var validator = $("#newRental").validate({
+            var validator = $("#rental").validate({
                 submitHandler: function () {
+                    console.log(vm);
                     $.ajax({
-                        url: "/api/newRentals",
-                        method: "post",
-                        data: vm
+                        url: "/api/rentals/",
+                        contentType: "application/json",
+                        method: "POST",
+                        data: JSON.stringify(vm),
+                        dataType: 'json'
                     })
                     .done(function () {
-                        toastr.success("Rentals successfully recorded.");
-
+                        /* toastr.success("Rentals successfully recorded."); */
+                         alert('success')
                         $("#customer").typeahead("val", "");
-                        $("#movie").typeahead("val", "");
-                        $("#movies").empty();
-
-                        vm = { movieIds: [] };
-
+                        $("#lens").typeahead("val", "");
+                        $("#lenses").empty();
+                        vm = { lensIds: [] };
                         validator.resetForm();
                     })
                     .fail(function () {
-                        toastr.error("Something unexpected happened.");
+                         alert('fail')
+                        /* toastr.error("Something unexpected happened."); */
                     });
-
                     return false;
                 }
             });
+
         });
     </script>
 {% endblock %}
-#}

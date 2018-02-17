@@ -22,18 +22,20 @@ from app.models import (
 
 
 @api.route('/rentals/', methods=['POST'])
-def create_rental(id):
+def create_rental():
     data = request.get_json() or {}
+    customer = Customer.query.get_or_404(data["customerId"])
+    print('**********************')
+    lenses = []
+    for id in data["lensIds"]:
+        lenses.append(Lens.query.get_or_404(id))
 
-    customer = Customer.query.get_or_404(data["customer_id"])
-    lens = Lens.query.get_or_404(data["lens_id"])
-
+    print(lenses,sys.stdout)
     for lens in lenses:
         # if lens.number_available == 0:
             # return bad_request("lens is not available")
 
-        lens.number_available -= 1
-        
+        # lens.number_available -= 1
         rental = Rental()
         rental.customer = customer
         rental.lens = lens
