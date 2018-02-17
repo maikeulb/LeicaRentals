@@ -1,13 +1,15 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-  <main class="ui text container">
+  <main class="container mt-4">
+    <div class="col-lg-6 col-sm-12">
     <h2>{{ lens.name }}</h2>
-    <ul>
-      <li>Format: {{ lens.format.name }}</li>
-      <li>Release Date: {{ lens.release_date.strftime('%Y-%m-%d') }}</li>
-      <li>Date Added: {{ lens.date_added.strftime('%Y-%m-%d') }}</li>
-      <li>Number in stock: {{ lens.number_in_stock }}</li>
+    <ul class="list-group">
+      <li class="list-group-item">Format: {{ lens.format.name }}</li>
+      <li class="list-group-item">Release Date: {{ lens.release_date.strftime('%Y-%m-%d') }}</li>
+      <li class="list-group-item">Date Added: {{ lens.date_added.strftime('%Y-%m-%d') }}</li>
+      <li class="list-group-item">Number in stock: {{ lens.number_in_stock }}</li>
     </ul>
+    </div>
   </main>
 {% endblock %}

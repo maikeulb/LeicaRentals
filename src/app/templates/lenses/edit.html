@@ -1,41 +1,43 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-  <main class="ui text container">
-    <h2>Lens form</h2>
-    <form action="" method="post" class="ui form">
-      <div class="ui segment">
-        {{ form.hidden_tag() }}
-          <div class="field">
-            {{ form.name.label }}
-            {{ form.name }}
-            {% for error in form.name.errors %}
-              <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-          </div>
-          <div class="field">
-            {{ form.release_date.label }}
-            {{ form.release_date }}
-            {% for error in form.release_date.errors %}
-              <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-          </div>
-          <div class="field">
-            {{ form.format_id.label }}
-            {{ form.format_id }}
-            {% for error in form.format_id.errors %}
-              <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-          </div>
-          <div class="field">
-            {{ form.number_in_stock.label }}
-            {{ form.number_in_stock }}
-            {% for error in form.number_in_stock.errors %}
-              <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-          </div>
-        {{ form.submit(class="ui fluid large submit button") }}
+  <main class="container mt-4">
+    <div class="col-lg-6 col-sm-12">
+      <div class="mb-4">
+        <h2 class="mb-3">Lens Form</h2>
       </div>
-    </form>
+      <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+          {{ form.name.label }}
+          {{ form.name(class_="form-control") }}
+          {% for error in form.name.errors %}
+            <span class="text-primary">{{ error }}</span>
+          {% endfor %}
+        </div>
+        <div class="form-group">
+          {{ form.release_date.label }}
+          {{ form.release_date(class_="form-control") }}
+          {% for error in form.release_date.errors %}
+            <span class="text-primary">{{ error }}</span>
+          {% endfor %}
+        </div>
+        <div class="form-group">
+          {{ form.format_id.label }}
+          {{ form.format_id(class_="form-control") }}
+          {% for error in form.format_id.errors %}
+            <span class="text-primary">{{ error }}</span>
+          {% endfor %}
+        </div>
+        <div class="form-group">
+          {{ form.number_in_stock.label }}
+          {{ form.number_in_stock(class_="form-control") }}
+          {% for error in form.number_in_stock.errors %}
+            <span class="text-primary">{{ error }}</span>
+          {% endfor %}
+        </div>
+        {{ form.submit(class="ui fluid large submit button") }}
+      </form>
+    </div>
   </main>
 {% endblock %}

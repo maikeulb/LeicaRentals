@@ -2,52 +2,56 @@
 
 {% block app_content %}
   <main class="container mt-4">
-  <div class="row">
-  <div class="col-lg-6 col-sm-12">
-   <h2>New Rental Form</h2>
-   <form id="rental">
-     <div class="form-group">
-         <label>Customer</label>
-         <div class="tt-container">
-             <input id="customer" name="customer" data-rule-validCustomer="true" required type="text" value="" class="form-control" />
-         </div>
-     </div>
-     <div class="form-group">
-         <label>Lens</label>
-         <div class="tt-container">
-             <input id="lens" name="lens" data-rule-atLeastOneLens="true" type="text" value="" class="form-control" />
-         </div>
-     </div>
-     <div class="row">
-         <div class="col-md-4 col-sm-4">
-             <ul id="lenses" class="list-group"></ul>
-         </div>
-     </div>
-     <button class="btn btn-primary">Submit</button>
-    </form>
-  </div>
-  </div>
+    <div class="row">
+      <div class="col-lg-6 col-sm-12">
+        <div class="mb-4">
+          <h2 class="mb-3">Rental Form</h2>
+        </div>
+        <form id="rental">
+          <div class="form-group">
+            <label>Customer</label>
+            <div class="tt-container">
+              <input id="customer" name="customer" data-rule-validCustomer="true" required type="text" value="" class="form-control" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Lens</label>
+            <div class="tt-container">
+              <input id="lens" name="lens" data-rule-atLeastOneLens="true" type="text" value="" class="form-control" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 col-sm-4">
+              <ul id="lenses" class="list-group"></ul>
+            </div>
+          </div>
+          <br>
+          <button class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+    </div>
   </main>
 {% endblock %}
 
 {% block js %}
+
   <script type="text/javascript">
-    var csrf_token = "{{ csrf_token() }}";
-    $.ajaxSetup({
-        beforeSend: function(xhr, settings) {
-            if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
-                xhr.setRequestHeader("X-CSRFToken", csrf_token);
-            }
-        }
+    $(document).ready(function () {
+      var csrf_token = "{{ csrf_token() }}";
+      $.ajaxSetup({
+          beforeSend: function(xhr, settings) {
+              if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                  xhr.setRequestHeader("X-CSRFToken", csrf_token);
+              }
+          }
+      });
     });
   </script>
-
   <script>
     $(document).ready(function () {
-        var vm = {
+        var msg = {
             lensIds: []
         };
-
         var customers = new Bloodhound({
             datumTokenizer: Bloodhound.tokenizers.obj.whitespace('last_name'),
             queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -56,18 +60,16 @@
                 wildcard: '%QUERY'
             }
         });
-
         $('#customer').typeahead({
             minLength: 1,
             highlight: true
         }, {
             name: 'customers',
-            display: 'last_name',
+            display: 'full_name',
             source: customers
         }).on("typeahead:select", function(e, customer) {
-            vm.customerId = customer.id;
+            msg.customerId = customer.id;
         });
-
         var lenses = new Bloodhound({
             datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
             queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -76,57 +78,60 @@
                 wildcard: '%QUERY'
             }
         });
-
         $('#lens').typeahead({
             minLength: 1,
             highlight: true
         }, {
             name: 'lenses',
-            display: 'name',
+            display: 'lens_name',
             source: lenses
         }).on("typeahead:select", function (e, lens) {
             $("#lenses").append("<li class='list-group-item'>" + lens.name + "</li>");
-
               $("#lens").typeahead("val", "");
-
-              vm.lensIds.push(lens.id);
+              msg.lensIds.push(lens.id);
           });
 
         $.validator.addMethod("validCustomer", function () {
-            return vm.customerId && vm.customerId !== 0;
-        }, "Please select a valid customer.");
+            return msg.customerId && msg.customerId !== 0;
+        }, "<span class='text-primary'>Please select a valid customer.</span>");
 
         $.validator.addMethod("atLeastOneLens", function () {
-            return vm.lensIds.length > 0;
-        }, "Please select at least one lens.");
+            return msg.lensIds.length > 0;
+        }, "<span class='text-primary'>Please select atleast one lens.</span>");
 
         var validator = $("#rental").validate({
             submitHandler: function () {
-                console.log(vm);
+                console.log(msg);
                 $.ajax({
                     url: "/api/rentals/",
                     contentType: "application/json",
                     method: "POST",
-                    data: JSON.stringify(vm),
+                    data: JSON.stringify(msg),
                     dataType: 'json'
                 })
                 .done(function () {
-                    /* toastr.success("Rentals successfully recorded."); */
-                     alert('success')
+                    new Noty({
+                      theme: 'relax',
+                      type: 'alert',
+                      text: 'Rentals Recorded'
+                    }).setTimeout(1500).show();
                     $("#customer").typeahead("val", "");
                     $("#lens").typeahead("val", "");
                     $("#lenses").empty();
-                    vm = { lensIds: [] };
+                    msg = { lensIds: [] };
                     validator.resetForm();
                 })
                 .fail(function () {
-                     alert('fail')
-                    /* toastr.error("Something unexpected happened."); */
+                    new Noty({
+                      theme: 'relax',
+                      type: 'error',
+                      text: 'Something Unexpected Happened'
+                    }).setTimeout(1500).show();
                 });
                 return false;
             }
         });
-
     });
   </script>
+
 {% endblock %}

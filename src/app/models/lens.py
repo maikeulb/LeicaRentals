@@ -18,9 +18,14 @@ class Lens(db.Model):
         backref='format'
     )
 
+    @property
+    def lens_name(self):
+        return '{0}, {1}'.format(self.name.title(),
+                                         self.name.title())
+
     def from_dict(self, data):
-        for field in ['name', 'date_added', 'release_date',
-                      'number_in_stock', 'number_available', 'format_id']:
+        for field in ['name', 'date_added', 'release_date', 'number_in_stock',
+                      'number_available', 'format_id', 'lens_name']:
             if field in data:
                 setattr(self, field, data[field])
 
@@ -28,6 +33,7 @@ class Lens(db.Model):
         data = {
             'id': self.id,
             'name': self.name,
+            'lens_name': self.lens_name,
             'date_added': self.date_added,
             'release_date': self.release_date,
             'number_in_stock': self.number_in_stock,

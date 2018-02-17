@@ -1,11 +1,13 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-  <main class="ui text container">
-    <h2>{{ customer.full_name }}</h2>
-    <ul>
-      <li>Membership Type: {{ customer.membership_type.name }}</li>
-      <li>Date of Birth: {{ customer.date_of_birth.strftime('%Y-%m-%d') }}</li>
-    </ul>
+  <main class="container mt-4">
+    <div class="col-lg-6 col-sm-12">
+      <h2>{{ customer.full_name }}</h2>
+      <ul class="list-group">
+        <li class="list-group-item">Membership Type: {{ customer.membership_type.name }}</li>
+        <li class="list-group-item">Date of Birth: {{ customer.date_of_birth.strftime('%Y-%m-%d') }}</li>
+      </ul>
+    </div>
   </main>
 {% endblock %}

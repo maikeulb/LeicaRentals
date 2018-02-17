@@ -38,7 +38,7 @@ def new():
         try:
             db.session.add(customer)
             db.session.commit()
-            flash('Customer is added!', 'success')
+            flash('Customer added!', 'success')
             print('hi')
             return redirect(url_for('customers.index'))
         except:
