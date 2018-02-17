@@ -1,16 +1,18 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-  <main class="ui text container">
+  <main class="container mt-4">
    <h2>Lenses</h2>
-    <a href="{{ url_for('lenses.new') }}" class="btn btn-primary">New</a>
+    <a href="{{ url_for('lenses.new') }}" class="btn btn-link">Add New Lens</a>
 
     {% if lenses %}
-      <table id = "lenses" class="table table-striped table-hover table-bordered ">
+       <table id="lenses" class="table table-striped table-bordered" cellspacing="0" width="100%">
+
         <thead>
         <tr>
           <th>Lenses</th>
           <th>Format</th>
+          <th>Edit</th>
           <th>Delete</th>
         </tr>
         </thead>
@@ -45,21 +47,33 @@
                     dataSrc: ""
                 },
                 columns: [
+
                     {
                         data: "name",
                         render: function(data, type, lens) {
-                            return "<a href='/lenses/edit/" + lens.id + "'>" + lens.name + "</a>";
+                            return "<a href='/lenses/details/" + lens.id + "'>" + lens.name + "</a>";
                         }
                     },
+
                     {
                         data: "format_name"
                     },
+
+                    {
+                        data: "name",
+                        render: function(data, type, lens) {
+                            return "<a href='/lenses/edit/" + lens.id + "'class='btn btn-secondary btn-sm'>Edit</a>";
+                        }
+                    },
+
+
                     {
                         data: "id",
                         render: function(data) {
-                            return "<button class='btn-link js-delete' data-lens-id=" + data + ">Delete</button>";
+                            return "<button class='btn btn-secondary btn-sm js-delete' data-lens-id=" + data + ">Delete</button>";
                         }
                     }
+
                 ]
             });
 

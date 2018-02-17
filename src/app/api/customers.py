@@ -18,8 +18,8 @@ from app.models import (
 )
 
 @api.route('/customers', defaults={'query': None})
-@api.route('/customers/<query>')
 def get_customers(query):
+    query = request.args.get('query')
     customer_query = Customer.query
 
     if query:
