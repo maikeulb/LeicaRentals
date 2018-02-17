@@ -10,7 +10,7 @@
       <div class="form-group">
         {{ form.username.label }}
         {{ form.username(class_="form-control") }}
-        {% for error in form.password.errors %}
+        {% for error in form.username.errors %}
           <span class="text-primary">{{ error }}</span>
         {% endfor %}
       </div>

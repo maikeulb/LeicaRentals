@@ -17,8 +17,15 @@ from app.models import (
 )
 
 
+@customers.before_request
+@login_required
+def require_login():
+    pass
+
+
 @customers.route('/')
 @customers.route('/index')
+@login_required
 def index():
     customers = Customer.query.all()
     return render_template('customers/index.html',

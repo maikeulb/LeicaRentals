@@ -18,6 +18,12 @@ from app.models import (
 )
 
 
+@lenses.before_request
+@login_required
+def require_login():
+    pass
+
+
 @lenses.route('/')
 @lenses.route('/index')
 def index():

@@ -13,6 +13,12 @@ from app.models import (
     Rental,
 )
 
+@rentals.before_request
+@login_required
+def require_login():
+    pass
+
+
 @rentals.route('/')
 @rentals.route('/index')
 def index():
