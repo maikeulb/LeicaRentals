@@ -13,7 +13,8 @@ from app.extensions import login, db
 from app.lenses import lenses
 from app.models import (
     Lens,
-    Format,
+    Mount,
+    FocalLength,
 )
 
 
@@ -29,10 +30,13 @@ def index():
 
 @lenses.route('/new', methods=['GET', 'POST'])
 def new():
-    formats = Format.query \
+    mounts = Mount.query \
+            .all()
+    focal_lengths = FocalLength.query \
             .all()
     form = LensForm()
-    form.format_id.choices = [(f.id, f.name) for f in formats]
+    form.mount_id.choices = [(f.id, f.name) for f in mounts]
+    form.focal_length_id.choices = [(f.id, f.name) for f in focal_lengths]
     if form.validate_on_submit():
         lens = Lens()
         form.populate_obj(lens)
@@ -45,7 +49,6 @@ def new():
             db.session.rollback()
             flash('Error editing lens.', 'danger')
 
-    formats = Format.query.all()
     return render_template('lenses/new.html',
                            form=form,
                            title='Lens')
@@ -56,23 +59,26 @@ def edit(id):
     lens = Lens.query \
                .filter_by(id=id) \
                .first_or_404()
-    formats = Format.query.all()
+    mounts = Mount.query \
+            .all()
+    focal_lengths = FocalLength.query \
+            .all()
+    form = LensForm()
     form = LensForm(obj=lens)
-    form.format_id.choices = [(f.id, f.name) for f in formats]
+    form.mount_id.choices = [(f.id, f.name) for f in mounts]
+    form.focal_length_id.choices = [(f.id, f.name) for f in focal_lengths]
     if form.validate_on_submit():
         try:
             form.populate_obj(lens)
             db.session.add(lens)
             db.session.commit()
-            flash('Lens is updated!', 'success')
+            flash('Lens updated!', 'success')
             return redirect(url_for('lenses.index'))
         except:
             db.session.rollback()
             flash('Error editing customer.', 'danger')
 
-    formats = Format.query.all()
     return render_template('lenses/edit.html',
-                           formats=formats,
                            form=form,
                            title='Lens')
 

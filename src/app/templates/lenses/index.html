@@ -9,7 +9,8 @@
         <thead>
         <tr>
           <th>Lenses</th>
-          <th>Format</th>
+          <th>Mount</th>
+          <th>Focal Length</th>
           <th>Edit</th>
           <th>Delete</th>
         </tr>
@@ -45,13 +46,16 @@
       },
       columns: [
         {
-          data: "lens_name",
+          data: "name",
           render: function(data, type, lens) {
             return "<a href='/lenses/details/" + lens.id + "'>" + lens.lens_name + "</a>";
           }
         },
         {
-          data: "format_name"
+          data: "mount_name"
+        },
+        {
+          data: "focal_length_name"
         },
         {
           data: "name",

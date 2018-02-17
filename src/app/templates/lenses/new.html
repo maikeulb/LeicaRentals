@@ -23,9 +23,16 @@
           {% endfor %}
         </div>
         <div class="form-group">
-          {{ form.format_id.label }}
-          {{ form.format_id(class_="form-control" ) }}
-          {% for error in form.format_id.errors %}
+          {{ form.mount_id.label }}
+          {{ form.mount_id(class_="form-control") }}
+          {% for error in form.mount_id.errors %}
+            <span class="text-primary">{{ error }}</span>
+          {% endfor %}
+        </div>
+        <div class="form-group">
+          {{ form.focal_length_id.label }}
+          {{ form.focal_length_id(class_="form-control") }}
+          {% for error in form.focal_length_id.errors %}
             <span class="text-primary">{{ error }}</span>
           {% endfor %}
         </div>

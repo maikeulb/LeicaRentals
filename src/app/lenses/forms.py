@@ -8,5 +8,6 @@ class LensForm(FlaskForm):
     name = StringField('Model', validators=[DataRequired()])
     release_date = DateField('Release Date', format='%Y-%m-%d', validators=[DataRequired()])
     number_in_stock = IntegerField('No. In Stock', validators=[DataRequired()])
-    format_id = SelectField('Format', coerce=int, validators=[DataRequired()])
+    mount_id = SelectField('Mount', coerce=int, validators=[DataRequired()])
+    focal_length_id = SelectField('FocalLength', coerce=int, validators=[DataRequired()])
     submit = SubmitField('Submit')

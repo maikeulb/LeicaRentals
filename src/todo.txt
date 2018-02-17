@@ -1,0 +1,6 @@
+Lens< picture>
+format : mount: ltm, m, r
+focal length: 35mm, 50mm, 28mm
+price -> (price/day)
+full anme: 28mm Elmart f2.8 Type 1
+name: elmart f2.8 Type 1

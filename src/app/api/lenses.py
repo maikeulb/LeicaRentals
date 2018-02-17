@@ -20,6 +20,7 @@ from app.models import (
 @api.route('/lenses', defaults={'query': None})
 def get_lenses(query):
     # lens_query = Lens.query.filter(Lens.number_available > 0)
+    print ("hi", sys.stdout)
     query = request.args.get('query')
     lens_query = Lens.query
 
