@@ -11,21 +11,28 @@ class Lens(db.Model):
     release_date = db.Column(db.DateTime, index=True)
     number_in_stock = db.Column(db.Integer)
     number_available = db.Column(db.Integer)
-    format_id = db.Column(db.Integer, db.ForeignKey('formats.id'))
+    mount_id = db.Column(db.Integer, db.ForeignKey('mounts.id'))
+    focal_length_id = db.Column(db.Integer, db.ForeignKey('focal_lengths.id'))
 
-    format = db.relationship(
-        'Format',
-        backref='format'
+    mount = db.relationship(
+        'Mount',
+        backref='mount'
     )
+
+    focal_length = db.relationship(
+        'FocalLength',
+        backref='focal_length'
+    )
+
 
     @property
     def lens_name(self):
-        return '{0}, {1}'.format(self.name.title(),
-                                         self.name.title())
+        return '{0} {1}, {2}'.format(self.focal_length.title(), self.name.title(),
+                                 self.mount.title())
 
     def from_dict(self, data):
-        for field in ['name', 'date_added', 'release_date', 'number_in_stock',
-                      'number_available', 'format_id', 'lens_name']:
+        for field in ['name','focal_length_id', 'date_added', 'release_date', 'number_in_stock',
+                      'number_available', 'mount_id', 'lens_name']:
             if field in data:
                 setattr(self, field, data[field])
 
@@ -38,8 +45,10 @@ class Lens(db.Model):
             'release_date': self.release_date,
             'number_in_stock': self.number_in_stock,
             'number_available': self.number_available,
-            'format_id': self.format_id,
-            'format_name': self.format.name
+            'focal_length_id': self.focal_length_id,
+            'focal_length_name': self.focal_length.name,
+            'mount_id': self.mount_id,
+            'mount_name': self.mount.name
         }
         return data
 
