@@ -14,3 +14,20 @@ class Rental(db.Model):
     customer = db.relationship('Customer')
     lens = db.relationship('Lens')
 
+    def from_dict(self, data):
+        for field in ['date_rented', 'date_returned', 'customer_id',
+                      'lens_id']:
+            if field in data:
+                setattr(self, field, data[field])
+
+    def to_dict(self):
+        data = {
+            'id': self.id,
+            'date_rented': self.date_rented,
+            'date_returned': self.date_returned,
+            'customer_name': self.customer.name,
+            'lens_name': self.lens.name
+        }
+        return data
+
+

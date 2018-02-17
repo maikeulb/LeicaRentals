@@ -17,20 +17,25 @@ import json
 from app.models import (
     Customer,
     Lens,
-    Rental,
+    Rental
 )
+
+@api.route('/rentals')
+def get_rentals():
+    rental_query = Rental.query
+    rentals = rental_query.all()
+    response = jsonify([rentals.to_dict() for rental in rentals])
+    return response
 
 
 @api.route('/rentals/', methods=['POST'])
 def create_rental():
     data = request.get_json() or {}
     customer = Customer.query.get_or_404(data["customerId"])
-    print('**********************')
     lenses = []
     for id in data["lensIds"]:
         lenses.append(Lens.query.get_or_404(id))
 
-    print(lenses,sys.stdout)
     for lens in lenses:
         # if lens.number_available == 0:
             # return bad_request("lens is not available")
@@ -43,4 +48,13 @@ def create_rental():
 
     db.session.commit()
     response = jsonify({"result": "success"})
+    return response
+
+
+@api.route('/rentals/<int:id>', methods=['DELETE'])
+def delete_rental(id):
+    Rental.query.filter_by(id=id).delete()
+    db.session.commit()
+
+    response = jsonify({'data': 'success'})
     return response
