@@ -4,7 +4,8 @@
       <span class="navbar-toggler-icon"></span>
    </button>
   <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav">
+
+    <ul class="navbar-nav mr-auto">
       <li class="nav-item">
         <a class="nav-link" href="{{ url_for('lenses.index') }}">Lenses</a>
       </li>
@@ -15,5 +16,27 @@
         <a class="nav-link" href="{{ url_for('rentals.new') }}">Rent</a>
       </li>
     </ul>
+
+    <ul class = "navbar-nav">
+      {% if current_user.is_anonymous %}
+      <li class="nav-item">
+        <a href="{{ url_for('account.login') }}" class="nav-link">Login</a>
+      </li>
+      <li class="nav-item">
+        <a href="{{ url_for('account.register') }}" class="nav-link">Register</a>
+      </li>
+      </div>
+      {% else %}
+      <li class="nav-item">
+        <span><a href="#" class="nav-link">Hello {{ current_user.username }}</a></span>
+      </li>
+      <li class="nav-item">
+        <a href="{{ url_for('account.logout') }}" class="nav-link">Logout</a>
+      </li>
+        </div>
+      </div>
+      {% endif %}
+    </ul>
+
   </div>
 </nav>
