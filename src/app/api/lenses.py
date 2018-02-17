@@ -1,4 +1,5 @@
 import sys
+from sqlalchemy import func
 from datetime import datetime
 from flask import (
     render_template,
@@ -22,10 +23,11 @@ def get_lenses(query):
     # lens_query = Lens.query.filter(Lens.number_available > 0)
     print ("hi", sys.stdout)
     query = request.args.get('query')
-    lens_query = Lens.query
+    lens_query = Lens.query.join(Lens.mount).join(Lens.focal_length)
 
     if query:
-        lens_query = lens_query.filter(Lens.name.contains(query))
+        lens_query = \
+        lens_query.filter(func.lower(Lens.name).contains(func.lower(query)))
 
     lenses = lens_query.all()
     response = jsonify([lens.to_dict() for lens in lenses])

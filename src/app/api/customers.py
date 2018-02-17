@@ -1,5 +1,6 @@
 import sys
 from datetime import datetime
+from sqlalchemy import func
 from flask import (
     render_template,
     flash,
@@ -24,8 +25,8 @@ def get_customers(query):
 
     if query:
         customer_query = \
-        customer_query.filter(Customer.first_name.contains(query) |
-                              Customer.last_name.contains(query))
+        customer_query.filter(func.lower(Customer.first_name).contains(func.lower(query)) |
+                              func.lower(Customer.last_name).contains(func.lower(query)))
 
     customers = customer_query.all()
     response = jsonify([customer.to_dict() for customer in customers])

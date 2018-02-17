@@ -50,25 +50,26 @@
   <script>
     $(document).ready(function () {
         var msg = {
-            lensIds: []
+          lensIds: []
         };
         var customers = new Bloodhound({
-            datumTokenizer: Bloodhound.tokenizers.obj.whitespace('last_name'),
-            queryTokenizer: Bloodhound.tokenizers.whitespace,
-            remote: {
-                url: '/api/customers?query=%QUERY',
-                wildcard: '%QUERY'
-            }
+          datumTokenizer: Bloodhound.tokenizers.obj.whitespace('last_name'),
+          queryTokenizer: Bloodhound.tokenizers.whitespace,
+          remote: {
+            url: '/api/customers?query=%QUERY',
+            wildcard: '%QUERY'
+          }
         });
+
         $('#customer').typeahead({
-            minLength: 1,
-            highlight: true
+          minLength: 1,
+          highlight: true
         }, {
-            name: 'customers',
-            display: 'full_name',
-            source: customers
+          name: 'customers',
+          display: 'full_name',
+          source: customers
         }).on("typeahead:select", function(e, customer) {
-            msg.customerId = customer.id;
+          msg.customerId = customer.id;
         });
         var lenses = new Bloodhound({
             datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
@@ -86,7 +87,7 @@
             display: 'lens_name',
             source: lenses
         }).on("typeahead:select", function (e, lens) {
-            $("#lenses").append("<li class='list-group-item'>" + lens.name + "</li>");
+            $("#lenses").append("<li class='list-group-item'>" + lens.lens_name + "</li>");
               $("#lens").typeahead("val", "");
               msg.lensIds.push(lens.id);
           });
