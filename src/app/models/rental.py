@@ -1,5 +1,5 @@
 from app.extensions import db
-from datetime import datetime
+from datetime import datetime, date
 
 
 class Rental(db.Model):
@@ -23,10 +23,9 @@ class Rental(db.Model):
     def to_dict(self):
         data = {
             'id': self.id,
-            'date_rented': self.date_rented,
-            'date_returned': self.date_returned,
-            'customer_name': self.customer.name,
-            'lens_name': self.lens.name
+            'date_rented': self.date_rented.strftime('%Y-%m-%d'),
+            'customer_name': self.customer.full_name,
+            'lens_name': self.lens.lens_name
         }
         return data
 

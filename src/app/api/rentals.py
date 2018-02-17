@@ -24,7 +24,7 @@ from app.models import (
 def get_rentals():
     rental_query = Rental.query
     rentals = rental_query.all()
-    response = jsonify([rentals.to_dict() for rental in rentals])
+    response = jsonify([rental.to_dict() for rental in rentals])
     return response
 
 

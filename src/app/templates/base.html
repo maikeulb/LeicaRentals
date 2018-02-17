@@ -100,11 +100,13 @@
               document.addEventListener("DOMContentLoaded", function(event) {
                 var messages = {{ messages | safe }};
                 for (var i=0; i<messages.length; i++) {
+
                   new Noty({
                     theme: 'rellax',
                     type: 'info',
                     text: messages[i]
                   }).setTimeout(1500).show();
+
                 } 
                });
             </script>
