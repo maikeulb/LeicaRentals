@@ -1,8 +1,8 @@
-"""initdb
+"""init-db
 
-Revision ID: cd137e95fb30
+Revision ID: 01a82e225c19
 Revises: 
-Create Date: 2018-03-10 19:15:45.783691
+Create Date: 2018-03-16 19:03:31.268452
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'cd137e95fb30'
+revision = '01a82e225c19'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -49,6 +49,8 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('first_name', sa.String(length=140), nullable=True),
     sa.Column('last_name', sa.String(length=140), nullable=True),
+    sa.Column('email', sa.String(length=140), nullable=True),
+    sa.Column('is_signed_up', sa.Boolean(), nullable=True),
     sa.Column('date_of_birth', sa.DateTime(), nullable=True),
     sa.Column('membership_type_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['membership_type_id'], ['membership_types.id'], ),

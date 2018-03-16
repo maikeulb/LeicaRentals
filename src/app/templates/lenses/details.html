@@ -5,10 +5,10 @@
     <div class="col-lg-6 col-sm-12">
     <h2>{{ lens.name }}</h2>
     <ul class="list-group">
-      <li class="list-group-item">Name: {{ lens.format.name }}</li>
+      <li class="list-group-item">Name: {{ lens.name }}</li>
       <li class="list-group-item">Release Date: {{ lens.release_date.strftime('%Y-%m-%d') }}</li>
-      <li class="list-group-item">Mount: {{ lens.format.name }}</li>
-      <li class="list-group-item">Focal_length: {{ lens.format.name }}</li>
+      <li class="list-group-item">Mount: {{ lens.mount_name }}</li>
+      <li class="list-group-item">Focal_length: {{ lens.focal_length_name }}</li>
       <li class="list-group-item">Date Added: {{ lens.date_added.strftime('%Y-%m-%d') }}</li>
       <li class="list-group-item">Number in stock: {{ lens.number_in_stock }}</li>
     </ul>

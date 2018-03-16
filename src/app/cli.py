@@ -73,7 +73,24 @@ def register(app):
                       'braun', 'hunger', 'folwers', 'gross', 'barber',
                       'stanton', 'mckinney', 'craig', 'stone']
 
-        membership_type_ids = [2, 3, 1, 1, 1, 2, 1, 3, 2, 1, 3, 1, 1, 3]
+        emails = ['klaw@example.com',
+                  'lowe@example.com',
+                  'kombrough@example.com',
+                  'ramsburg@example.com',
+                  'mathews@example.com',
+                  'braun@example.com',
+                  'hunger@example.com',
+                  'folwers@example.com',
+                  'gross@example.com',
+                  'barber@example.com',
+                  'stanton@example.com',
+                  'mckinney@example.com',
+                  'craig@example.com',
+                  'stone@example.com']
+
+        membership_type_ids = [1, 2, 3]
+
+        is_signed_up_choices = [True, False]
 
         date_of_births = [date(1987, 1, 2),
                           date(1987, 5, 2),
@@ -93,7 +110,10 @@ def register(app):
         for c in range(0, len(last_names)):
             db.session.add(Customer(first_name=first_names[c],
                                     last_name=last_names[c],
-                                    membership_type_id=membership_type_ids[c],
+                                    email=emails[c],
+                                    membership_type_id=choice(
+                                        membership_type_ids),
+                                    is_signed_up=choice(is_signed_up_choices),
                                     date_of_birth=date_of_births[c]))
 
     def seed_lenses():
