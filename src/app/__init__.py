@@ -2,31 +2,30 @@ import config
 import os
 
 from flask import (
-    Flask, 
-    render_template, 
-    request, 
+    Flask,
+    render_template,
+    request,
     current_app
 )
 from app import commands, models
 from app.extensions import bcrypt, csrf_protect, db, \
-login, migrate, moment
+    login, migrate, moment, mail
 from app.api import api as api_bp
 from app.account import account as account_bp
 from app.main import main as main_bp
 from app.rentals import rentals as rentals_bp
 from app.customers import customers as customers_bp
 from app.lenses import lenses as lenses_bp
+from celery import Celery
 
-Config = eval(os.environ['FLASK_APP_CONFIG'])
 
-
-def create_app(config_class=Config):
+def create_app(config_class):
     app = Flask(__name__)
-    app.config.from_object(config_class)
     register_blueprints(app)
     register_extensions(app)
     register_errorhandlers(app)
     register_commands(app)
+    make_celery(app)
     return app
 
 
@@ -37,6 +36,7 @@ def register_extensions(app):
     login.init_app(app)
     migrate.init_app(app, db)
     moment.init_app(app)
+    mail.init_app(app)
     return None
 
 
@@ -49,6 +49,7 @@ def register_blueprints(app):
     app.register_blueprint(api_bp, url_prefix='/api')
     return None
 
+
 def register_errorhandlers(app):
     def render_error(error):
         error_code = getattr(error, 'code', 500)
@@ -57,15 +58,19 @@ def register_errorhandlers(app):
         app.errorhandler(errcode)(render_error)
     return None
 
-def register_commands(app):
-    app.cli.add_command(commands.test)
-    app.cli.add_command(commands.lint)
-    app.cli.add_command(commands.clean)
-    app.cli.add_command(commands.urls)
 
-def register_shellcontext(app):
-    def shell_context():
-        return {
-            'db': db,
-            'User': models.User}
-    app.shell_context_processor(shell_context)
+def make_celery(app)
+    celery = Celery('app',
+                    backend=config_class['CELERY_RESULT_BACKEND'],
+                    broker=config_class['CELERY_BROKER_URL'])
+    celery.conf.update(app.config)
+    TaskBase = celery.Task
+
+    class ContextTask(TaskBase):
+        abstract = True
+
+        def __call__(self, *args, **kwargs):
+            with app.app_context():
+                return TaskBase.__call__(self, *args, **kwargs)
+    celery.Task = ContextTask
+    return celery

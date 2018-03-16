@@ -97,3 +97,15 @@ def delete(id):
     flash('Delete successfully.', 'success')
 
     return redirect(url_for('customers.index'))
+
+
+@customers.route('/newsletter/<id>')
+def newsletter(id):
+    customers = Customer.query.all()
+    msg = Message('Hello', recipients=[customers.email])
+    msg.body = 'test email'
+    if form.is.valid.onsubti
+        send_async_email
+        flash('Sending newsletter')
+
+    return redirect(url_for('customers.index'))

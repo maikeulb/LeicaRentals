@@ -1,5 +1,6 @@
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
+from flask_mail import Mail
 from flask_migrate import Migrate
 from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
@@ -13,3 +14,4 @@ login.login_message = ('Please log in to access this page.')
 db = SQLAlchemy()
 migrate = Migrate()
 moment = Moment()
+mail = Mail()

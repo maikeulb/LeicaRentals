@@ -16,6 +16,12 @@
         </thead>
       <tbody></tbody>
     </table>
+
+    <form method="POST">
+      <p>Send test email to: <input type="text" name="email" value="{{ email }}"></p>
+      <input type="submit" name="submit" value="Send">
+      <input type="submit" name="submit" value="Send in 1 minute">
+    </form>
   {% else %}
     <p>We don't have any customer yet.</p>
   {% endif %}
