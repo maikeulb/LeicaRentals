@@ -7,7 +7,6 @@ from flask import (
     request,
     current_app
 )
-from app import commands, models
 from app.extensions import bcrypt, csrf_protect, db, \
     login, migrate, moment, mail
 from app.api import api as api_bp
@@ -18,14 +17,22 @@ from app.customers import customers as customers_bp
 from app.lenses import lenses as lenses_bp
 from celery import Celery
 
+# celery = Celery(__name__,
+#                 backend=os.environ.get('CELERY_RESULT_BACKEND'),
+#                 broker=os.environ.get('CELERY_BROKER_URL'))
+
+celery = Celery(__name__,
+                backend='redis://172.17.0.4:6379/0',
+                broker='redis://172.17.0.4:6379/0')
+
 
 def create_app(config_class):
     app = Flask(__name__)
+    app.config.from_object(config_class)
     register_blueprints(app)
     register_extensions(app)
     register_errorhandlers(app)
-    register_commands(app)
-    make_celery(app)
+    celery.conf.update(app.config)
     return app
 
 
@@ -57,20 +64,3 @@ def register_errorhandlers(app):
     for errcode in [401, 404, 500]:
         app.errorhandler(errcode)(render_error)
     return None
-
-
-def make_celery(app)
-    celery = Celery('app',
-                    backend=config_class['CELERY_RESULT_BACKEND'],
-                    broker=config_class['CELERY_BROKER_URL'])
-    celery.conf.update(app.config)
-    TaskBase = celery.Task
-
-    class ContextTask(TaskBase):
-        abstract = True
-
-        def __call__(self, *args, **kwargs):
-            with app.app_context():
-                return TaskBase.__call__(self, *args, **kwargs)
-    celery.Task = ContextTask
-    return celery

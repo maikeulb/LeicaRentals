@@ -9,12 +9,14 @@ from flask import (
 )
 from flask_login import current_user, login_required
 from app.customers.forms import CustomerForm
-from app.extensions import login, db
+from app.extensions import db, mail
 from app.customers import customers
 from app.models import (
     Customer,
     MembershipType,
 )
+from app.customers.tasks import send_newsletter
+from flask_mail import Message
 
 
 @customers.before_request
@@ -99,13 +101,16 @@ def delete(id):
     return redirect(url_for('customers.index'))
 
 
-@customers.route('/newsletter/<id>')
-def newsletter(id):
-    customers = Customer.query.all()
-    msg = Message('Hello', recipients=[customers.email])
-    msg.body = 'test email'
-    if form.is.valid.onsubti
-        send_async_email
-        flash('Sending newsletter')
+@customers.route('/newsletter')
+def newsletter():
+    # customers = Customer.query.all()
+
+    body = render_template(
+        'email/newsletter.html', user=current_user)
+
+    send_newsletter('LeicaRentals NewsLetter',
+                    ['maikeulbgithub@gmail.com'],
+                    body)
+    flash('Sending newsletters')
 
     return redirect(url_for('customers.index'))

@@ -18,8 +18,8 @@ class Config(object):
     DEMO_ADMIN_PASSWORD = os.environ.get('DEMO_ADMIN_PASSWORD') or 'P@ssw0rd!'
     DEMO_ADMIN_EMAIL = 'demo_admin@mail.com'
 
-    CELERY_BROKER_URL = 'redis://localhost:6379/0'
-    CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+    CELERY_BROKER_URL = "redis://172.17.0.4:6379/0"
+    CELERY_RESULT_BACKEND = "redis://172.17.0.4:6379/0"
 
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'S3cr3t'
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URI') or \
