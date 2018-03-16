@@ -36,21 +36,17 @@ def index():
 @customers.route('/new', methods=['GET', 'POST'])
 def new():
     membership_types = MembershipType.query \
-            .all()
+        .all()
     form = CustomerForm()
-    form.membership_type_id.choices = [(m.id, m.name) for m in membership_types]
+    form.membership_type_id.choices = [
+        (m.id, m.name) for m in membership_types]
     if form.validate_on_submit():
         customer = Customer()
         form.populate_obj(customer)
-        try:
-            db.session.add(customer)
-            db.session.commit()
-            flash('Customer added!', 'success')
-            print('hi')
-            return redirect(url_for('customers.index'))
-        except:
-            db.session.rollback()
-            flash('Error adding customer.', 'danger')
+        db.session.add(customer)
+        db.session.commit()
+        flash('Customer added!', 'success')
+        return redirect(url_for('customers.index'))
 
     return render_template('customers/new.html',
                            form=form,
@@ -60,23 +56,19 @@ def new():
 @customers.route('/edit/<id>', methods=['GET', 'POST'])
 def edit(id):
     customer = Customer.query \
-            .filter_by(id=id) \
-            .first_or_404()
+        .filter_by(id=id) \
+        .first_or_404()
     membership_types = MembershipType.query \
-            .all()
+        .all()
     form = CustomerForm(obj=customer)
-    form.membership_type_id.choices = [(m.id, m.name) for m in membership_types]
+    form.membership_type_id.choices = [
+        (m.id, m.name) for m in membership_types]
     if form.validate_on_submit():
         form.populate_obj(customer)
-        try:
-            form.populate_obj(customer)
-            db.session.add(customer)
-            db.session.commit()
-            flash('Customer is updated!', 'success')
-            return redirect(url_for('customers.index'))
-        except:
-            db.session.rollback()
-            flash('Error editing customer.', 'danger')
+        db.session.add(customer)
+        db.session.commit()
+        flash('Customer is updated!', 'success')
+        return redirect(url_for('customers.index'))
 
     membership_types = MembershipType.query.all()
     return render_template('customers/edit.html',
@@ -88,8 +80,8 @@ def edit(id):
 @customers.route('/details/<id>')
 def details(id):
     customer = Customer.query \
-            .filter_by(id=id) \
-            .first_or_404()
+        .filter_by(id=id) \
+        .first_or_404()
 
     return render_template('customers/details.html',
                            customer=customer,
@@ -99,13 +91,9 @@ def details(id):
 @customers.route('/delete/<id>', methods=['POST'])
 def delete(id):
     customer = Customer.query \
-            .filter_by(id=id).first_or_404()
-    try:
-        db.session.delete(customer)
-        db.session.commit()
-        flash('Delete successfully.', 'success')
-    except:
-        db.session.rollback()
-        flash('Error delete  customer.', 'danger')
+        .filter_by(id=id).first_or_404()
+    db.session.delete(customer)
+    db.session.commit()
+    flash('Delete successfully.', 'success')
 
     return redirect(url_for('customers.index'))

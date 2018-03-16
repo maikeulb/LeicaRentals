@@ -46,14 +46,10 @@ def new():
     if form.validate_on_submit():
         lens = Lens()
         form.populate_obj(lens)
-        try:
-            db.session.add(lens)
-            db.session.commit()
-            flash('Lens added!', 'success')
-            return redirect(url_for('lenses.index'))
-        except:
-            db.session.rollback()
-            flash('Error editing lens.', 'danger')
+        db.session.add(lens)
+        db.session.commit()
+        flash('Lens added!', 'success')
+        return redirect(url_for('lenses.index'))
 
     return render_template('lenses/new.html',
                            form=form,
@@ -74,15 +70,11 @@ def edit(id):
     form.mount_id.choices = [(f.id, f.name) for f in mounts]
     form.focal_length_id.choices = [(f.id, f.name) for f in focal_lengths]
     if form.validate_on_submit():
-        try:
-            form.populate_obj(lens)
-            db.session.add(lens)
-            db.session.commit()
-            flash('Lens updated!', 'success')
-            return redirect(url_for('lenses.index'))
-        except:
-            db.session.rollback()
-            flash('Error editing customer.', 'danger')
+        form.populate_obj(lens)
+        db.session.add(lens)
+        db.session.commit()
+        flash('Lens updated!', 'success')
+        return redirect(url_for('lenses.index'))
 
     return render_template('lenses/edit.html',
                            form=form,
@@ -104,12 +96,8 @@ def delete(id):
     lens = Lens.query \
                .filter_by(id=id) \
                .first_or_404()
-    try:
-        db.session.delete(lens)
-        db.session.commit()
-        flash('Delete successfully.', 'success')
-    except:
-        db.session.rollback()
-        flash('Error delete  customer.', 'danger')
+    db.session.delete(lens)
+    db.session.commit()
+    flash('Delete successfully.', 'success')
 
     return redirect(url_for('lenses.index'))

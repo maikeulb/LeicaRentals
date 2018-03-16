@@ -5,7 +5,6 @@ dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
 basedir = os.path.abspath(os.path.dirname(__file__))
 load_dotenv(dotenv_path)
 
-
 class Config(object):
 
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'S3cr3t'
@@ -16,7 +15,7 @@ class Config(object):
     DEVELOPMENT = False
     TESTING = False
     PRODUCTION = False
-    DEBUG = False 
+    DEBUG = False
     TESTING = False
 
 class DevelopmentConfig(Config):
@@ -31,7 +30,6 @@ class ProductionConfig(Config):
 class TestingConfig(Config):
     DEBUG = True
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = 'sqlite://'
-    BCRYPT_LOG_ROUNDS = 4  
+    BCRYPT_LOG_ROUNDS = 4
     CSRF_ENABLED = False
-    WTF_CSRF_ENABLED = False  
+    WTF_CSRF_ENABLED = False

@@ -4,7 +4,6 @@
       <span class="navbar-toggler-icon"></span>
    </button>
   <div class="collapse navbar-collapse" id="navbarNav">
-
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
         <a class="nav-link" href="{{ url_for('lenses.index') }}">Lenses</a>
@@ -16,7 +15,6 @@
         <a class="nav-link" href="{{ url_for('rentals.index') }}">Rentals</a>
       </li>
     </ul>
-
     <ul class = "navbar-nav">
       {% if current_user.is_anonymous %}
       <li class="nav-item">
@@ -37,6 +35,5 @@
       </div>
       {% endif %}
     </ul>
-
   </div>
 </nav>
