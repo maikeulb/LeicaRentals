@@ -15,8 +15,9 @@ from app.models import (
     Customer,
     MembershipType,
 )
-from app.customers.tasks import send_newsletter
+from app.tasks import send_newsletter
 from flask_mail import Message
+from sqlalchemy.orm import load_only
 
 
 @customers.before_request
@@ -103,14 +104,17 @@ def delete(id):
 
 @customers.route('/newsletter')
 def newsletter():
-    # customers = Customer.query.all()
+    customers = \
+        Customer.query.filter_by(is_signed_up=True).all()
+    emails = [c.email for c in customers]
+    names = [c.first_name for c in customers]
+    for i in range(0, len(emails)):
+        body = render_template(
+            'email/newsletter.html', name=names[i])
+        send_newsletter('LeicaRentals NewsLetter',
+                        [emails[i]],
+                        body)
 
-    body = render_template(
-        'email/newsletter.html', user=current_user)
-
-    send_newsletter('LeicaRentals NewsLetter',
-                    ['maikeulbgithub@gmail.com'],
-                    body)
     flash('Sending newsletters')
 
     return redirect(url_for('customers.index'))

@@ -14,6 +14,9 @@
       <li class="nav-item">
         <a class="nav-link" href="{{ url_for('rentals.index') }}">Rentals</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('newsletter.index') }}">Newsletter</a>
+      </li>
     </ul>
     <ul class = "navbar-nav">
       {% if current_user.is_anonymous %}

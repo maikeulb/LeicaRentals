@@ -1,8 +1,9 @@
 from datetime import datetime
 from flask import (
-    render_template, 
+    render_template,
 )
 from app.main import main
+
 
 @main.route('/')
 @main.route('/index')

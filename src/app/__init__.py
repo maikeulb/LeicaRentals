@@ -15,15 +15,12 @@ from app.main import main as main_bp
 from app.rentals import rentals as rentals_bp
 from app.customers import customers as customers_bp
 from app.lenses import lenses as lenses_bp
+from app.newsletter import newsletter as newsletter_bp
 from celery import Celery
 
-# celery = Celery(__name__,
-#                 backend=os.environ.get('CELERY_RESULT_BACKEND'),
-#                 broker=os.environ.get('CELERY_BROKER_URL'))
-
 celery = Celery(__name__,
-                backend='redis://172.17.0.4:6379/0',
-                broker='redis://172.17.0.4:6379/0')
+                backend=os.environ.get('CELERY_RESULT_BACKEND'),
+                broker=os.environ.get('CELERY_BROKER_URL'))
 
 
 def create_app(config_class):
@@ -53,6 +50,7 @@ def register_blueprints(app):
     app.register_blueprint(customers_bp, url_prefix='/customers')
     app.register_blueprint(rentals_bp, url_prefix='/rentals')
     app.register_blueprint(lenses_bp, url_prefix='/lenses')
+    app.register_blueprint(newsletter_bp, url_prefix='/newsletter')
     app.register_blueprint(api_bp, url_prefix='/api')
     return None
 
