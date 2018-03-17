@@ -22,6 +22,8 @@ def register(app):
         db.drop_all()
         db.create_all()
 
+        seed_users()
+
         seed_membership_types()
         seed_customers()
 
@@ -31,6 +33,15 @@ def register(app):
 
         db.session.commit()
         print('DB seed complete')
+
+    def seed_users():
+        print('Adding demo-user')
+        Role.insert_roles()
+        demo = User(
+            username='demo',
+            password=Config.DEMO_PASSWORD,
+            email=Config.DEMO_EMAIL)
+        db.session.add(demo)
 
     def seed_mounts():
         print('Adding Mounts')
@@ -43,7 +54,7 @@ def register(app):
     def seed_focal_lengths():
         print('Adding Focal Lengths')
 
-        names = ['28mm', '35mm', '50mm']
+        names = ['21mm', '35mm', '50mm']
 
         for m in range(0, len(names)):
             db.session.add(FocalLength(name=names[m]))

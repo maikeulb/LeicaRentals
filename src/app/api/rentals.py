@@ -12,13 +12,14 @@ from flask import (
 from flask_login import current_user, login_required
 from app.extensions import db
 from app.api import api
-# from app.api.errors import bad_request
+from app.api.errors import bad_request
 import json
 from app.models import (
     Customer,
     Lens,
     Rental
 )
+
 
 @api.route('/rentals')
 def get_rentals():
@@ -37,10 +38,10 @@ def create_rental():
         lenses.append(Lens.query.get_or_404(id))
 
     for lens in lenses:
-        # if lens.number_available == 0:
-            # return bad_request("lens is not available")
+        if lens.number_available == 0:
+            return bad_request("lens is not available")
 
-        # lens.number_available -= 1
+        lens.number_available -= 1
         rental = Rental()
         rental.customer = customer
         rental.lens = lens
@@ -53,8 +54,11 @@ def create_rental():
 
 @api.route('/rentals/<int:id>', methods=['DELETE'])
 def delete_rental(id):
-    Rental.query.filter_by(id=id).delete()
-    db.session.commit()
+    rental = Rental.query.get_or_404(id)
+    lens = rental.lens
+    lens.number_available += 1
 
+    db.session.delete(rental)
+    db.session.commit()
     response = jsonify({'data': 'success'})
     return response

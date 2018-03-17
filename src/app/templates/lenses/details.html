@@ -7,10 +7,11 @@
     <ul class="list-group">
       <li class="list-group-item">Name: {{ lens.name }}</li>
       <li class="list-group-item">Release Date: {{ lens.release_date.strftime('%Y-%m-%d') }}</li>
-      <li class="list-group-item">Mount: {{ lens.mount_name }}</li>
-      <li class="list-group-item">Focal_length: {{ lens.focal_length_name }}</li>
+      <li class="list-group-item">Mount: {{ lens.mount.name }}</li>
+      <li class="list-group-item">Focal Length: {{ lens.focal_length.name }}</li>
       <li class="list-group-item">Date Added: {{ lens.date_added.strftime('%Y-%m-%d') }}</li>
       <li class="list-group-item">Number in stock: {{ lens.number_in_stock }}</li>
+      <li class="list-group-item">Number available: {{ lens.number_available }}</li>
     </ul>
     </div>
   </main>
