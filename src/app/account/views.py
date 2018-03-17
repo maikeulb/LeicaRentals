@@ -38,8 +38,8 @@ def login():
         if not next_page or url_parse(next_page).netloc != '':
             next_page = url_for('main.index')
         return redirect(next_page)
-    return render_template('account/login.html', 
-                           title='Sign In', 
+    return render_template('account/login.html',
+                           title='Sign In',
                            form=form)
 
 
@@ -62,6 +62,6 @@ def register():
         db.session.commit()
         flash('Congratulations, you are now a registered user!')
         return redirect(url_for('account.login'))
-    return render_template('account/register.html', 
+    return render_template('account/register.html',
                            title='Register',
                            form=form)

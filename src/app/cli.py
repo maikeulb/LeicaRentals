@@ -2,7 +2,9 @@ import sys
 import os
 import click
 from app.extensions import db
+from config import Config
 from app.models import (
+    User,
     Mount,
     FocalLength,
     Lens,
@@ -36,7 +38,6 @@ def register(app):
 
     def seed_users():
         print('Adding demo-user')
-        Role.insert_roles()
         demo = User(
             username='demo',
             password=Config.DEMO_PASSWORD,
