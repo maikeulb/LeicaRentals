@@ -1,26 +1,35 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-  <main>
+  <main class="container mt-4">
+    <h1>Leica Rentals</h1>
     <div class="jumbotron">
-      <h1>Leica Rentals</h1>
-      <p class="lead">Leica Rentals is a flask web application for managing lens
-        rentals.</p>
+      {% if current_user.is_anonymous %}
       <p><a href="{{ url_for('account.register') }}" class="btn
         btn-primary">Register</a></p>
       <p><a href="{{ url_for('account.login') }}" class="btn
         btn-secondary">Login</a></p>
+      {% endif %}
     </div>
 
   <div class="row">
-    <div class="col-md-4">
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <div class="col-md-6">
+
+      <p>This is a prototype lens rental application. The backend is powered by
+        Flask, PostgreSQL, Celery, and Redis, and the frontend is powered by
+        Bootstrap 4, Typeahead/Bloodhound, and DataTables. Users can create,
+        retrieve, edit, and delete, catalog of lenses and customers. Lenses and
+        can rented out and returned. Newsletters can also be sent
+        (asynchronously) to subscribed customers.
+      </p>
     </div>
-    <div class="col-md-4">
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-    </div>
-    <div class="col-md-4">
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+    <div class="col-md-6">
+      <p>The name of this application is a reference to Leica, a German Company
+        that manufactures optics and high-end cameras. Leica is one of my
+        favorite lens makers for 35mm lenses. I've pre-populated the catalog with a few
+        of their well-known LTM and M lenses. I've taken the banner image from their
+        website (no copyright infringement intended). </p>
     </div>
   </div>
 
