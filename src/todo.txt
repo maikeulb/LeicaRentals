@@ -1,4 +1,0 @@
-date rented
-date returned
-stock
-increment/decriment available lenses
