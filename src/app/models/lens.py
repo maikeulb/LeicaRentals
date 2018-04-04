@@ -24,14 +24,13 @@ class Lens(db.Model):
         backref='focal_length'
     )
 
-
     @property
     def lens_name(self):
         return '{0} {1}, {2}'.format(self.focal_length.name, self.name.title(),
-                                 self.mount.name)
+                                     self.mount.name)
 
     def from_dict(self, data):
-        for field in ['name','focal_length_id', 'date_added', 'release_date', 'number_in_stock',
+        for field in ['name', 'focal_length_id', 'date_added', 'release_date', 'number_in_stock',
                       'number_available', 'mount_id', 'lens_name']:
             if field in data:
                 setattr(self, field, data[field])
@@ -51,5 +50,3 @@ class Lens(db.Model):
             'mount_name': self.mount.name
         }
         return data
-
-

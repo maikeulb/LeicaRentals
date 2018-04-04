@@ -1,7 +1,16 @@
 from factory import PostGenerationMethodCall, Sequence, SubFactory
 from factory.alchemy import SQLAlchemyModelFactory
 from app.extensions import db
-from app.models import Customer, MembershipType, User, Lens, Mount
+import json
+from datetime import datetime, date
+from app.models import (
+    Customer,
+    MembershipType,
+    User,
+    Lens,
+    Mount,
+    FocalLength
+)
 
 
 class BaseFactory(SQLAlchemyModelFactory):
@@ -11,25 +20,41 @@ class BaseFactory(SQLAlchemyModelFactory):
 
 
 class MembershipTypeFactory(BaseFactory):
-    id = Sequence(lambda n: '{0}'.format(n))
+    id = Sequence(lambda n: n)
     name = 'bronze'
 
     class Meta:
         model = MembershipType
 
 
-class MountFactory(BaseFactory):
-    id = Sequence(lambda n: '{0}'.format(n))
+class FocalLengthFactory(BaseFactory):
+    id = Sequence(lambda n: n)
     name = '35mm'
+
+    class Meta:
+        model = FocalLength
+
+
+class MountFactory(BaseFactory):
+    id = Sequence(lambda n: n)
+    name = 'slr'
 
     class Meta:
         model = Mount
 
 
-class CustomerFactory(BaseFactory):
-    id = Sequence(lambda n: '{0}'.format(n))
-    first_name = Sequence(lambda n: 'first_name{0}'.format(n))
+def _date_handler(obj): return (
+    obj.isoformat()
+    if isinstance(obj, (datetime, date))
+    else None
+)
 
+
+class CustomerFactory(BaseFactory):
+    id = Sequence(lambda n: n)
+    first_name = Sequence(lambda n: 'first_name{0}'.format(n))
+    last_name = Sequence(lambda n: 'last_name{0}'.format(n))
+    date_of_birth = json.dumps(datetime.now(), default=_date_handler)
     membership_type = SubFactory(MembershipTypeFactory)
 
     class Meta:
@@ -37,10 +62,14 @@ class CustomerFactory(BaseFactory):
 
 
 class LensFactory(BaseFactory):
-    id = Sequence(lambda n: '{0}'.format(n))
+    id = Sequence(lambda n: n)
     name = Sequence(lambda n: 'name{0}'.format(n))
-
+    date_added = json.dumps(datetime.now(), default=_date_handler)
+    release_date = json.dumps(datetime.now(), default=_date_handler)
+    number_in_stock = Sequence(lambda n: n)
+    number_available = Sequence(lambda n: n)
     mount = SubFactory(MountFactory)
+    focal_length = SubFactory(FocalLengthFactory)
 
     class Meta:
         model = Lens

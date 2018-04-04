@@ -1,10 +1,16 @@
 import pytest
 
 from app import create_app
-from app.models import User, Customer, MembershipType, Lens, Mount
+from app.models import User, Customer, MembershipType, Lens, Mount, FocalLength
 from app.extensions import db as _db
 from webtest import TestApp
-from .factories import CustomerFactory, MembershipTypeFactory, MountFactory, LensFactory
+from .factories import (
+    CustomerFactory,
+    MembershipTypeFactory,
+    MountFactory,
+    FocalLengthFactory,
+    LensFactory
+)
 from flask import Response, url_for
 from flask.testing import FlaskClient
 from werkzeug.utils import cached_property
@@ -38,35 +44,42 @@ def db(app):
     _db.drop_all()
 
 
-@pytest.fixture
+@pytest.fixture(scope='function')
 def membership_type(db):
     membership_type = MembershipTypeFactory()
     db.session.commit()
     return membership_type
 
 
-@pytest.fixture
+@pytest.fixture(scope='function')
 def customer(db):
     customer = CustomerFactory()
     db.session.commit()
     return customer
 
 
-@pytest.fixture
+@pytest.fixture(scope='function')
 def lens(db):
     lens = LensFactory()
     db.session.commit()
     return lens
 
 
-@pytest.fixture
+@pytest.fixture(scope='function')
 def mount(db):
     mount = MountFactory()
     db.session.commit()
     return mount
 
 
-@pytest.fixture
+@pytest.fixture(scope='function')
+def focal_length(db):
+    mount = FocalLengthFactory()
+    db.session.commit()
+    return mount
+
+
+@pytest.fixture(scope='function')
 def user(db):
     user = User(username='demo',
                 email='demo@example.com')
