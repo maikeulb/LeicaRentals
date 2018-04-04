@@ -1,10 +1,10 @@
 import pytest
 
 from app import create_app
-from app.models import User, Customer, MembershipType
+from app.models import User, Customer, MembershipType, Lens, Mount
 from app.extensions import db as _db
 from webtest import TestApp
-from .factories import CustomerFactory, MembershipTypeFactory
+from .factories import CustomerFactory, MembershipTypeFactory, MountFactory, LensFactory
 from flask import Response, url_for
 from flask.testing import FlaskClient
 from werkzeug.utils import cached_property
@@ -47,9 +47,23 @@ def membership_type(db):
 
 @pytest.fixture
 def customer(db):
-    customer = CustomerFactory(first_name='user')
+    customer = CustomerFactory()
     db.session.commit()
-    return user
+    return customer
+
+
+@pytest.fixture
+def lens(db):
+    lens = LensFactory()
+    db.session.commit()
+    return lens
+
+
+@pytest.fixture
+def mount(db):
+    mount = MountFactory()
+    db.session.commit()
+    return mount
 
 
 @pytest.fixture
