@@ -15,6 +15,10 @@ from flask import current_app
 from datetime import date
 from random import choice, shuffle, sample
 
+HERE = os.path.abspath(os.path.dirname(__file__))
+PROJECT_ROOT = os.path.join(HERE, os.pardir)
+TEST_PATH = os.path.join(PROJECT_ROOT, 'tests')
+
 
 def register(app):
     @app.cli.command('seed-db')
@@ -180,3 +184,9 @@ def register(app):
                                 number_available=numbers_available[c],
                                 mount_id=mount_ids[c],
                                 focal_length_id=focal_length_ids[c]))
+
+    @app.cli.command("test")
+    def test():
+        import pytest
+        rv = pytest.main([TEST_PATH, '--verbose'])
+        exit(rv)
