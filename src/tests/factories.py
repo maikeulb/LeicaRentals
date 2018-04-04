@@ -19,11 +19,11 @@ class MembershipTypeFactory(BaseFactory):
 
 
 class CustomerFactory(BaseFactory):
+    id = Sequence(lambda n: '{0}'.format(n))
     first_name = Sequence(lambda n: 'first_name{0}'.format(n))
     is_signed_up = False
-    is_authenticated = True
 
     membership_type = SubFactory(MembershipTypeFactory)
 
     class Meta:
-        model = User
+        model = Customer
