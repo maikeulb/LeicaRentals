@@ -80,8 +80,6 @@ class RentalFactory(BaseFactory):
     id = Sequence(lambda n: n)
     date_rented = json.dumps(datetime.now(), default=_date_handler)
     date_returned = json.dumps(datetime.now(), default=_date_handler)
-    customer_id = Sequence(lambda n: n)
-    lens_id = Sequence(lambda n: n)
 
     customer = SubFactory(CustomerFactory)
     lens = SubFactory(LensFactory)

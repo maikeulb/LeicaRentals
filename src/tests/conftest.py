@@ -90,8 +90,8 @@ def focal_length(db):
 
 @pytest.fixture(scope='function')
 def rental(db, customer, lens):
-    rental = RentalFactory(customer_id=customer.id,
-                           lens_id=lens.id)
+    rental = RentalFactory(customer=customer,
+                           lens=lens)
     db.session.commit()
     return rental
 
