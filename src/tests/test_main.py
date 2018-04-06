@@ -2,7 +2,7 @@ from flask import url_for
 from datetime import datetime
 import pytest
 from app.models import Customer
-from .factories import CustomerFactory
+from ._factories import CustomerFactory
 
 
 @pytest.mark.usefixtures('db')

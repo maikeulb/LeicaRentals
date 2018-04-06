@@ -4,5 +4,5 @@ from wtforms.validators import DataRequired
 
 
 class RentalForm(FlaskForm):
-    customer = StringField('Enter lens name', validators=[DataRequired()])
-    lens = StringField('Enter customere', validators=[DataRequired()])
+    customer = StringField('Enter customer name', validators=[DataRequired()])
+    lens = StringField('Enter lens', validators=[DataRequired()])

@@ -1,12 +1,20 @@
 from flask import url_for
-from datetime import datetime
+from datetime import datetime, date
 import pytest
 from app.models import Customer
-from .factories import CustomerFactory
+from ._factories import CustomerFactory
+import json
+
+
+def _date_handler(obj): return (
+    obj.isoformat()
+    if isinstance(obj, (datetime, date))
+    else None
+)
 
 
 @pytest.mark.usefixtures('db')
-class TestLenses:
+class TestCustomers:
 
     def test_get_index(self, testapp):
         resp = testapp.get(url_for('customers.index'))
@@ -33,9 +41,35 @@ class TestLenses:
         resp = testapp.post(url_for('customers.new'))
         assert resp.status_code == 200
 
+    # def test_can_new(self, user, testapp, membership_type):
+    #     resp_customer = testapp.get(url_for('customers.new'))
+    #     form = resp_customer.forms['newCustomerForm']
+    #     form['first_name'] = "first_name_example",
+    #     form['last_name'] = "last_name_example",
+    #     form['email'] = "test@example.com",
+    #     form['newsletter'] = False,
+    #     form['date_of_birth'] = json.dumps(
+    #         datetime.now(), default=_date_handler),
+    #     form['membership_type_id'] = membership_type.id
+    #     resp = form.submit()
+    #     assert resp.status_code == 302
+
     def test_can_edit(self, testapp, customer):
         resp = testapp.post(url_for('customers.edit', id=customer.id))
         assert resp.status_code == 200
+
+    # def test_can_edit(self, user, testapp, membership_type):
+    #     resp_customer = testapp.get(url_for('customers.new'))
+    #     form = resp_customer.forms['newCustomerForm']
+    #     form['first_name'] = "first_name_example",
+    #     form['last_name'] = "last_name_example",
+    #     form['email'] = "test@example.com",
+    #     form['newsletter'] = False,
+    #     form['date_of_birth'] = json.dumps(
+    #         datetime.now(), default=_date_handler),
+    #     form['membership_type_id'] = membership_type.id
+    #     resp = form.submit()
+    #     assert resp.status_code == 302
 
     def test_can_delete(self, testapp, customer):
         # customer = CustomerFactory()

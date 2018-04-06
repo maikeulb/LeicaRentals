@@ -1,13 +1,14 @@
+import json
+from datetime import datetime, date
 from factory import PostGenerationMethodCall, Sequence, SubFactory
 from factory.alchemy import SQLAlchemyModelFactory
 from app.extensions import db
-import json
-from datetime import datetime, date
 from app.models import (
     Customer,
     MembershipType,
     User,
     Lens,
+    Rental,
     Mount,
     FocalLength
 )
@@ -73,3 +74,17 @@ class LensFactory(BaseFactory):
 
     class Meta:
         model = Lens
+
+
+class RentalFactory(BaseFactory):
+    id = Sequence(lambda n: n)
+    date_rented = json.dumps(datetime.now(), default=_date_handler)
+    date_returned = json.dumps(datetime.now(), default=_date_handler)
+    customer_id = Sequence(lambda n: n)
+    lens_id = Sequence(lambda n: n)
+
+    customer = SubFactory(CustomerFactory)
+    lens = SubFactory(LensFactory)
+
+    class Meta:
+        model = Rental

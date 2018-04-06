@@ -1,8 +1,16 @@
 from flask import url_for
-from datetime import datetime
+from datetime import datetime, date
 import pytest
 from app.models import Lens
-from .factories import LensFactory
+from ._factories import LensFactory
+import json
+
+
+def _date_handler(obj): return (
+    obj.isoformat()
+    if isinstance(obj, (datetime, date))
+    else None
+)
 
 
 @pytest.mark.usefixtures('db')
@@ -17,7 +25,6 @@ class TestLenses:
         assert resp.status_code == 200
 
     def test_get_edit(self, testapp, lens):
-        # lens = LensFactory()
         resp = testapp.get(url_for('lenses.edit', id=lens.id))
         assert resp.status_code == 200
 
@@ -27,7 +34,29 @@ class TestLenses:
         resp = testapp.get(url_for('lenses.details', id=lens.id))
         assert resp.status_code == 200
 
+    # def test_can_new(self, user, testapp, mount, focal_length):
+    #     resp_lens = testapp.get(url_for('lenses.new'))
+    #     form = resp_lens.forms["newLensForm"]
+    #     form['name'] = "summicron"
+    #     form['release_date'] = json.dumps(
+    #         datetime.now(), default=_date_handler)
+    #     form['number_in_stock'] = 3
+    #     form['mount_id'] = mount.id
+    #     form['focal_length_id'] = focal_length.id
+    #     resp = form.submit()
+    #     assert resp.status_code == 302
+
+    # def test_can_edit(self, user, testapp, lens, mount, focal_length):
+    #     resp = testapp.get(url_for('lenses.new', id=lens.id))
+    #     form = resp.forms[0]
+    #     form['name'] = "summitar"
+    #     form['release_date'] = json.dumps(
+    #         datetime.now(), default=_date_handler)
+    #     form['number_in_stock'] = 3
+    #     form['mount_id'] = mount.id
+    #     form['focal_length_id'] = focal_length.id
+    #     assert resp.status_code == 200
+
     def test_can_delete(self, testapp, lens):
-        # lens = LensFactory()
         resp = testapp.post(url_for('lenses.delete', id=lens.id))
         assert resp.status_code == 302

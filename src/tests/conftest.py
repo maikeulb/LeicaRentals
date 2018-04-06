@@ -1,15 +1,24 @@
 import pytest
 
 from app import create_app
-from app.models import User, Customer, MembershipType, Lens, Mount, FocalLength
+from app.models import (
+    User,
+    Customer,
+    MembershipType,
+    Lens,
+    Mount,
+    Rental,
+    FocalLength
+)
 from app.extensions import db as _db
 from webtest import TestApp
-from .factories import (
+from ._factories import (
     CustomerFactory,
     MembershipTypeFactory,
     MountFactory,
     FocalLengthFactory,
-    LensFactory
+    LensFactory,
+    RentalFactory
 )
 from flask import Response, url_for
 from flask.testing import FlaskClient
@@ -77,6 +86,14 @@ def focal_length(db):
     mount = FocalLengthFactory()
     db.session.commit()
     return mount
+
+
+@pytest.fixture(scope='function')
+def rental(db, customer, lens):
+    rental = RentalFactory(customer_id=customer.id,
+                           lens_id=lens.id)
+    db.session.commit()
+    return rental
 
 
 @pytest.fixture(scope='function')
