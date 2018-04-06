@@ -11,9 +11,8 @@ from app.models import (
     MembershipType,
     Customer,
 )
-from flask import current_app
 from datetime import date
-from random import choice, shuffle, sample
+from random import choice
 
 HERE = os.path.abspath(os.path.dirname(__file__))
 PROJECT_ROOT = os.path.join(HERE, os.pardir)

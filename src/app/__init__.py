@@ -1,11 +1,8 @@
 import config
 import os
-
 from flask import (
     Flask,
     render_template,
-    request,
-    current_app
 )
 from app.extensions import bcrypt, csrf_protect, db, \
     login, migrate, moment, mail

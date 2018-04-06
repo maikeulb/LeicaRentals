@@ -1,21 +1,16 @@
-import sys
-from datetime import datetime
 from flask import (
     render_template,
-    flash, redirect,
+    flash,
+    redirect,
     url_for,
-    request,
-    current_app
 )
-from flask_login import current_user, login_required
+from flask_login import login_required
 from app.newsletter.forms import NewsletterForm
-from app.extensions import db, mail
 from app.newsletter import newsletter
 from app.models import (
     Customer
 )
 from app.tasks import send_newsletter
-from flask_mail import Message
 
 
 @newsletter.route('/', methods=['GET', 'POST'])

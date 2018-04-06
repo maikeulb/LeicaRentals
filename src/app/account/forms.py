@@ -6,9 +6,8 @@ from wtforms import (
     SubmitField
 )
 from wtforms.validators import (
-    ValidationError, 
-    DataRequired, 
-    Email, 
+    DataRequired,
+    Email,
     EqualTo
 )
 from app.models import User
@@ -40,11 +39,13 @@ class LoginForm(FlaskForm):
 
         return True
 
+
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
-    confirm = PasswordField('Verify Password', validators=[DataRequired(), EqualTo('password')])
+    confirm = PasswordField('Verify Password', validators=[
+                            DataRequired(), EqualTo('password')])
     submit = SubmitField('Register')
 
     def __init__(self, *args, **kwargs):
@@ -65,13 +66,15 @@ class RegistrationForm(FlaskForm):
             return False
         return True
 
+
 class ResetPasswordRequestForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     submit = SubmitField('Request Password Reset')
+
 
 class ResetPasswordForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     confirm = PasswordField(
         'Repeat Password', validators=[DataRequired(),
-                                           EqualTo('password')])
+                                       EqualTo('password')])
     submit = SubmitField('Request Password Reset')

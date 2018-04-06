@@ -1,23 +1,18 @@
 import sys
-from datetime import datetime
 from flask import (
     render_template,
     flash, redirect,
     url_for,
-    request,
-    current_app
 )
-from flask_login import current_user, login_required
+from flask_login import login_required
 from app.customers.forms import CustomerForm
-from app.extensions import db, mail
+from app.extensions import db
 from app.customers import customers
 from app.models import (
     Customer,
     MembershipType,
 )
 from app.tasks import send_newsletter
-from flask_mail import Message
-from sqlalchemy.orm import load_only
 
 
 @customers.before_request

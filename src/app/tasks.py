@@ -1,5 +1,4 @@
 from flask_mail import Message
-from flask import current_app
 from app import mail
 from celery import shared_task
 
