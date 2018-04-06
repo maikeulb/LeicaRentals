@@ -1,7 +1,6 @@
-from flask import url_for
 import pytest
+from flask import url_for
 from ._factories import CustomerFactory, LensFactory
-import json
 
 
 @pytest.mark.usefixtures('db')
@@ -66,7 +65,7 @@ class TestLensesApi:
         })
         assert resp.status_code == 200
 
-    @pytest.mark.skip(reason="fails due to the property  for somereason")
+    @pytest.mark.skip(reason="fails due to the property for some reason")
     def test_can_edit(self, testapp, lens):
         second_lens = LensFactory()
         resp = testapp.put_json(url_for('api.update_lens', id=lens.id), {

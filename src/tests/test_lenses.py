@@ -1,9 +1,6 @@
+import pytest
 from flask import url_for
 from datetime import datetime, date
-import pytest
-from app.models import Lens
-from ._factories import LensFactory
-import json
 
 
 def _date_handler(obj): return (

@@ -1,9 +1,6 @@
+import pytest
 from flask import url_for
 from datetime import datetime, date
-import pytest
-from app.models import Customer
-from ._factories import CustomerFactory
-import json
 
 
 def _date_handler(obj): return (
@@ -72,6 +69,5 @@ class TestCustomers:
     #     assert resp.status_code == 302
 
     def test_can_delete(self, testapp, customer):
-        # customer = CustomerFactory()
         resp = testapp.post(url_for('customers.delete', id=customer.id))
         assert resp.status_code == 302

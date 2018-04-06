@@ -1,12 +1,11 @@
 import json
 from datetime import datetime, date
-from factory import PostGenerationMethodCall, Sequence, SubFactory
+from factory import Sequence, SubFactory
 from factory.alchemy import SQLAlchemyModelFactory
 from app.extensions import db
 from app.models import (
     Customer,
     MembershipType,
-    User,
     Lens,
     Rental,
     Mount,

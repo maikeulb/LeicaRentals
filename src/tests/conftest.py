@@ -1,14 +1,7 @@
 import pytest
-
 from app import create_app
 from app.models import (
     User,
-    Customer,
-    MembershipType,
-    Lens,
-    Mount,
-    Rental,
-    FocalLength
 )
 from app.extensions import db as _db
 from webtest import TestApp
@@ -20,9 +13,6 @@ from ._factories import (
     LensFactory,
     RentalFactory
 )
-from flask import Response, url_for
-from flask.testing import FlaskClient
-from werkzeug.utils import cached_property
 
 
 @pytest.fixture

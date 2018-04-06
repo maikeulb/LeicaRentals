@@ -1,6 +1,6 @@
+import pytest
 from flask import url_for
 from datetime import datetime
-import pytest
 from app.account.forms import (
     LoginForm,
     RegistrationForm,
@@ -10,9 +10,6 @@ from app.customers.forms import (
 )
 from app.lenses.forms import (
     LensForm,
-)
-from app.newsletter.forms import (
-    NewsletterForm,
 )
 from app.rentals.forms import (
     RentalForm,

@@ -1,8 +1,3 @@
-import datetime as dt
-import pytest
-from app.models import User
-
-
 class TestUserModel:
 
     def test_set_password(self, user):
