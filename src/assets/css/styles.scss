@@ -1,11 +1,20 @@
+// jumbotron
+
+.jumbotron {
+  background-image: url("https://static.leica-camera.com/var/leica/storage/images/media/media-asset-management-mam/global-international/photography/m-system/m-lenses/feature/gruppenbild_m-lenses/1703764-2-eng-MA/Gruppenbild_M-Lenses_teaser-1316x878.jpg");
+  background-size: cover;
+  background-position: center center;
+}
+</style>
+
 // sticky footer
-.site  {
-display: flex;
-min-height: 100vh;
-flex-direction: column;
+.site {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
 } 
 .site-content  {
-flex: 1;
+  flex: 1;
 } 
 
 // signin form

@@ -32,19 +32,18 @@
           </div>
           {{ form.submit(class="btn btn-primary") }}
         </form>
-        </br>
-        <div class="text-left mb-4">
-          New User? <a href="{{ url_for('account.register') }}"> Click to Register!</a>
-        </div>
 
-        <div id="demo_login" class="card-block">
-        <button 
-            type="submit"
-            data-username = "demo"
-            data-password = "P@ssw0rd!"
-            class="demo-user btn btn-seondary">
-            Demo User
-        </button>
+        <div class="text-center mb-4">
+          New User? <a href="{{ url_for('account.register') }}"> Click to Register!</a>
+          <div id="demo_login" class="card-block">
+          <button 
+              type="submit"
+              data-username = "demo"
+              data-password = "P@ssw0rd!"
+              class="demo-user btn btn-seondary">
+              Demo User
+          </button>
+          </div>
         </div>
 
       </section>
