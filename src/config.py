@@ -9,17 +9,17 @@ class Config(object):
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
 
-    ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD') or 'P@ssw0rd!'
-    ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL') or 'admin@email.com'
+    # ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD') or 'P@ssw0rd!'
+    # ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL') or 'admin@email.com'
 
     DEMO_PASSWORD = os.environ.get('DEMO_PASSWORD') or 'P@ssw0rd!'
     DEMO_EMAIL = 'demo@email.com'
 
-    DEMO_ADMIN_PASSWORD = os.environ.get('DEMO_ADMIN_PASSWORD') or 'P@ssw0rd!'
-    DEMO_ADMIN_EMAIL = 'demo_admin@mail.com'
+    # DEMO_ADMIN_PASSWORD = os.environ.get('DEMO_ADMIN_PASSWORD') or 'P@ssw0rd!'
+    # DEMO_ADMIN_EMAIL = 'demo_admin@mail.com'
 
-    CELERY_BROKER_URL = "redis://172.17.0.4:6379/0"
-    CELERY_RESULT_BACKEND = "redis://172.17.0.4:6379/0"
+    CELERY_BROKER_URL = "redis://172.17.0.5:6379/0"
+    CELERY_RESULT_BACKEND = "redis://172.17.0.5:6379/0"
 
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'S3cr3t'
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URI') or \
