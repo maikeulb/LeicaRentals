@@ -1,6 +1,8 @@
 # LeicaRentals
 
-Rental management system for managing lenses, customers (powered by DataTables), and lens rentals (with typeahead). Newsletters can also be sent out (asynchronously) to signed up customers.
+Rental management system for rental items, customers, and rentals (with
+typeahead). Newsletters can also be sent out asynchronously (via task queue) to
+signed up customers.
 
 Technology
 ----------
@@ -10,32 +12,45 @@ Technology
 * Bootstrap 4
 * Typeahead
 * DataTables
+* Noty
 
-Screenshot
+Screenshots
 ---
-### Main
+### Index
 ![index](/screenshots/index.png?raw=true "Index")
-### Customers - Details (customers can sign up for newsletters)
+### Customers - Details
+Customers select a membership and may optionally receive newsletters.
 ![customers](/screenshots/customers.png?raw=true "Customers")
-### Lenses - Index (pagination, sorting, and searching supported)
+### Lenses - Index
+Pagination, sorting, and searching via DataTables. Inventory is also  managed
+(number in stock and number available).
 ![lenses](/screenshots/lenses.png?raw=true "Lenses")
-### Rentals (autocomplete powered by typeahead)
+### Rentals
+Lenes may be rented (autocomplete powered via typeahead.js) and returned.
 ![rentals](/screenshots/rentals.png?raw=true "Rentals")
-### Returns (lenses can also be returned)
+### Returns
+***
 ![returns](/screenshots/returns.png?raw=true "Returns")
-### Newsletters (sent out to signed up customers only)
+### Newsletters 
+Newsletters are sent out to signed up customers only.
 ![newsletter](/screenshots/newsletter.png?raw=true "Newsletter")
+***
 ![mail](/screenshots/mail.png?raw=true "Mail")
 
 Run
 ---
-Create a database, open `config.py` and point the database URI to your
-server. You may optionally configure the Celery URI and mail server if you would like to send emails. After configuring the settings, set the
-`FLASK_APP` env variable to leicarentals.py, and then install the javascript
-and python dependencies (e.g. `npm install` and `pip install -r
-requirements.txt`). 
 
-`cd` to `./src` and run the following:
+Create a database named 'leicarentals', open `config.py` and point the database
+URI to your server. You may optionally configure the Celery URI and the mail server
+if you would like to send emails. 
+
+After configuring the settings, set the `FLASK_APP` env variable to
+leicarentals.py, and install the javascript (e.g `npm install`) and python
+dependencies (e.g. `pip install -r requirements.txt`). Be sure to install the
+python dependencies using `requirements.txt` located `./src/`, not
+`./src/requirements/` (I'm working on pruning the dev/prod/test dependencies).
+
+`cd` into `./src` (if you are not already) and run the following:
 ```
 celery-worker -A leicarentals.celery --loglevel=info (optional)
 flask db upgrade

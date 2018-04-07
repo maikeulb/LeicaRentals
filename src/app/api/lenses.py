@@ -16,13 +16,12 @@ def get_lenses(query):
     # lens_query = Lens.query.filter(Lens.number_available > 0)
     query = request.args.get('query')
     lens_query = Lens.query.join(Lens.mount).join(Lens.focal_length)
-
     if query:
         lens_query = \
             lens_query.filter(func.lower(
                 Lens.name).contains(func.lower(query)))
-
     lenses = lens_query.all()
+
     response = jsonify([lens.to_dict() for lens in lenses])
     return response
 
