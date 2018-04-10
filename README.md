@@ -47,10 +47,10 @@ if you would like to send emails.
 After configuring the settings, set the `FLASK_APP` env variable to
 leicarentals.py, and install the javascript (e.g `npm install`) and python
 dependencies (e.g. `pip install -r requirements.txt`). Be sure to install the
-python dependencies using `requirements.txt` located `./src/`, not
-`./src/requirements/` (I'm working on pruning the dev/prod/test dependencies).
+python dependencies using `requirements.txt` located `./leicarentals/`, not
+`./leicarentals/requirements/` (I'm working on pruning the dev/prod/test dependencies).
 
-`cd` into `./src` (if you are not already) and run the following:
+`cd` into `./leicarentals` (if you are not already); then run:
 ```
 celery-worker -A leicarentals.celery --loglevel=info (optional)
 flask db upgrade
